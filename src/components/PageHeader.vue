@@ -2,7 +2,7 @@
     <header class="header-container">
       <div class="logo">
         <img src="../assets/logoUruwala.png" alt="logo" class="logo">
-        <h4>Uruwala Tea Factory</h4>
+        <!-- <h4>Uruwala Tea Factory</h4> -->
       </div>
       <nav class="nav-links">
         <ul>
