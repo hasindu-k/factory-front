@@ -99,6 +99,9 @@ export default {
   margin-right: 10px;
   padding-top: 15px;
 }
+.col-2 {
+  margin-left: 40px;
+}
 .footer-column-main {
   flex: 1.5;
   margin-top: 5%;
