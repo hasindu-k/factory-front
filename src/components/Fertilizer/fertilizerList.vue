@@ -68,7 +68,7 @@
       </div>
 
       <button type="button" class="btn btn-primary"  @click="generateReport">Generate Report</button>
-      <button type="button" class="btn btn-primary" @click="addFertilizerClicked">ADD Employee</button>
+      <button type="button" class="btn btn-primary" @click="addFertilizerClicked">ADD Fertilizer</button>
     </div>
     <!-- table-container -->
   </template>
