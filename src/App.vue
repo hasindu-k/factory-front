@@ -1,6 +1,6 @@
 <template>
   <!-- <router-view></router-view> -->
-  <Header />
+  <PageHeader style="margin-bottom: 50px;"/>
 
   <addFertilizer v-if="showAddFertilizer" @addFertilizerClicked="backToFertilizerList" @cancel="backToFertilizerList" style="margin-top: 2%;" /> 
   <!-- v-if="showAddFertilizer" -->
@@ -13,12 +13,13 @@
 
   <StyleEdit/>
 
-  
+  <PageFooter style="margin-top: 100px;" />
 
 </template>
 
 <script>
-import Header from './components/PageHeader.vue';
+import PageHeader from "./components/PageHeader.vue";
+import PageFooter from "./components/PageFooter.vue";
 
 import fertilizerList from './components/Fertilizer/fertilizerList.vue'; // runnning the fertilizerList component
 
@@ -30,7 +31,8 @@ import addFertilizer from './components/Fertilizer/addFertilizer.vue';
 export default {
   name: 'App',
   components: {
-    Header,
+    PageHeader,
+    PageFooter,
     fertilizerList, //running
     addFertilizer,
     

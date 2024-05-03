@@ -2,6 +2,7 @@
     <header class="header-container">
       <div class="logo">
         <img src="../assets/logoUruwala.png" alt="logo" class="logo">
+        <!-- <h4>Uruwala Tea Factory</h4> -->
       </div>
       <nav class="nav-links">
         <ul>
@@ -19,11 +20,9 @@
   <script>
   export default {
     // Header component logic
-
   }
   </script>
 <style scoped>
-
 .header-container {
   background-color: #2A3925;
   color: #ffffff;
@@ -31,7 +30,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  margin-top: 0;
 }
 
 .logo {
