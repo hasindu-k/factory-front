@@ -35,9 +35,10 @@
     <div class="footer-column">
       <h3>Follow Us</h3>
       <ul>
-        <li><a href="#">Facebook</a></li>
-        <li><a href="#">Twitter</a></li>
-        <li><a href="#">Instagram</a></li>
+        <li><a href="https://www.facebook.com/uruwalatea?mibextid=ZbWKwL">Facebook</a></li>
+        <li><a href="http://www.uruwala.lk/uruwalatea@gmail.com">Gmail</a></li>
+        <li><a href="https://www.instagram.com/uruwala.tea?igshid=YmMyMTA2M2Y%3D">Instagram</a></li>
+        
       </ul>
     </div>
   </footer>

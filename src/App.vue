@@ -1,23 +1,20 @@
 <template>
   <PageHeader />
-  <!-- <UserLogin/> -->
-  <HomePage style="margin-top: 2%;"/>
+  <UserLogin/>
+  <!-- <HomePage style="margin-top: 2%;"/> -->
+  <div style="padding: 100px;"></div>
   <PageFooter />
 </template>
 
 <script>
 import PageHeader from "./components/PageHeader.vue";
-// import UserLogin from './components/UserLogin.vue'
 import PageFooter from "./components/PageFooter.vue";
-import HomePage from "./components/HomePage.vue";
 
 export default {
   name: "App",
   components: {
     PageHeader,
-    //UserLogin,
     PageFooter,
-    HomePage,
   },
 };
 </script>
