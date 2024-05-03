@@ -1,4 +1,4 @@
-# my-itp-tea-project
+# testing-run
 
 ## Project setup
 ```
