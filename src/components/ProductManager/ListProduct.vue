@@ -1,12 +1,12 @@
 <template>
   <div class="product-list-page container mt-3">
     <h1 class="mb-4">Product List</h1>
-    <div class="mb-3 d-flex justify-content-between">
-      <div>
+    <div class="mb-3">
+      <div class = "search">
         <label for="search">Search</label>
         <input type="text" class="form-control" id="search" placeholder="Search Products . . ." v-model="searchTerm" @input="searchProducts" />
       </div>
-      <div>
+      <div class = btn-add-gen>
         <button class="btn btn-primary" @click="openAddProductForm">Add Product</button>
         <button class="btn btn-primary" @click="generateReport">Generate Report</button>
       </div>
@@ -292,7 +292,7 @@ let headerHtml = `
     },
     async fetchProductDetails() {
       try {
-        const response = await fetch(`https://localhost:44378/api/Product/GetAllProducts`);
+        const response = await fetch(`http://localhost:5030/api/Product/GetAllProducts`);
         if (!response.ok) {
           throw new Error("Error fetching product details. Status: " + response.status);
         }
@@ -348,7 +348,7 @@ let headerHtml = `
   };
 
   // Make API call to add the product
-  fetch("https://localhost:44378/api/Product/PostProducts", {
+  fetch("http://localhost:5030/api/Product/PostProducts", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -411,7 +411,7 @@ deleteProduct(productId) {
 
   if (index !== -1) {
     // Check if the product is in the customer's cart
-    fetch(`https://localhost:44378/api/Cart/GetAllCartProducts`)
+    fetch(`http://localhost:5030/api/Cart/GetAllCartProducts`)
       .then(response => {
         if (!response.ok) {
           throw new Error(`Error fetching cart contents. Status: ${response.status}`);
@@ -425,7 +425,7 @@ deleteProduct(productId) {
           this.showToastMessage("Product cannot be deleted because it is in the cart", 'error');
         } else {
           // Product is not in the cart, proceed with deletion
-          fetch(`https://localhost:44378/api/Product/DeleteProducts?productId=${productId}`, {
+          fetch(`http://localhost:5030/api/Product/DeleteProducts?productId=${productId}`, {
             method: "DELETE"
           })
           .then(response => {
@@ -490,7 +490,7 @@ showToastMessage(message) {
     price: updatedProduct.price,
   };
        
-  fetch("https://localhost:44378/api/Product/UpdateProducts", {
+  fetch("http://localhost:5030/api/Product/UpdateProducts", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -525,7 +525,12 @@ showToastMessage(message) {
 </script>
 
 <style scoped>
+.mb-3{
+  display: block;
+  justify-content: space-between;
 
+}
+.product-list-page container mt-3
 .right-side input[type="text"],
 .right-side input[type="number"] {
   width: calc(100% - 20px); /* Decrease the width by 20 pixels */
@@ -615,6 +620,16 @@ showToastMessage(message) {
   color: #888;
 }
 
+.search {
+  display: flex;
+  align-items: center;
+  width:100%;
+}
+.btn-add-gen {
+  
+  align-items: center;
+
+}
 .confirmation-message {
   position: fixed;
   top: 20px;
@@ -701,6 +716,7 @@ showToastMessage(message) {
   border-radius: 4px;
   box-sizing: border-box;
 }
+
 
 .alert {
   margin-top: 10px;

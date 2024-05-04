@@ -100,7 +100,7 @@ export default {
     },
     async fetchProductDetails() {
       try {
-        const response = await fetch(`https://localhost:44378/api/Product/GetAllProducts`);
+        const response = await fetch(`http://localhost:5030/api/Product/GetAllProducts`);
         if (!response.ok) {
           throw new Error("Error fetching product details. Status: " + response.status);
         }
@@ -129,7 +129,7 @@ export default {
     async addToCart(product) {
   try {
     // Fetch the current cart contents
-    const cartResponse = await fetch("https://localhost:44378/api/Cart/GetAllCartProducts");
+    const cartResponse = await fetch("http://localhost:5030/api/Cart/GetAllCartProducts");
     if (!cartResponse.ok) {
       throw new Error("Error fetching cart contents. Status: " + cartResponse.status);
     }
@@ -151,7 +151,7 @@ export default {
       quantity
     };
 
-    const response = await fetch("https://localhost:44378/api/Cart/PostCartProducts", {
+    const response = await fetch("http://localhost:5030/api/Cart/PostCartProducts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

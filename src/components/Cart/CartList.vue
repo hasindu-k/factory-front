@@ -141,7 +141,7 @@ import PaymentDetails from './PaymentDetails.vue';
       },
       async fetchCartProductDetails() {
         try {
-          const response = await fetch("https://localhost:44378/api/cart/getallcartproducts");
+          const response = await fetch("http://localhost:5030/api/cart/getallcartproducts");
           if (!response.ok) {
             throw new Error(
               "Error fetching product details. Status: " + response.status
@@ -175,7 +175,7 @@ import PaymentDetails from './PaymentDetails.vue';
         this.selectedCartProductForDeletion = null;
       },
       async deleteCartProductOnServer(cId) {
-        const url = `https://localhost:44378/api/Cart/DeleteCartProducts?cId=${cId}`;
+        const url = `http://localhost:5030/api/Cart/DeleteCartProducts?cId=${cId}`;
   
         const response = await fetch(url, {
           method: "DELETE",
@@ -201,7 +201,7 @@ import PaymentDetails from './PaymentDetails.vue';
       ProductName: cartProduct.productName // Include the ProductName field
     };
 
-    const response = await fetch(`https://localhost:44378/api/Cart/UpdateCartProducts`, {
+    const response = await fetch(`http://localhost:5030/api/Cart/UpdateCartProducts`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -227,7 +227,7 @@ import PaymentDetails from './PaymentDetails.vue';
 
 async fetchProductPrices() {
       try {
-        const response = await fetch("https://localhost:44378/api/Product/GetAllProducts");
+        const response = await fetch("http://localhost:5030/api/Product/GetAllProducts");
         if (!response.ok) {
           throw new Error("Error fetching product prices");
         }
@@ -346,9 +346,12 @@ async fetchProductPrices() {
 }
 
 .total-price {
+  font-style: italic;
+ 
   margin-top: 10px;
   font-size: 18px;
   color: #333;
+  font-weight: bold;
 }
 
 /* Visually hidden class */
@@ -388,11 +391,11 @@ th {
 
 /* Alternating row colors */
 .table tbody tr:nth-child(even) {
-  background-color: #d9f7e6; /* light green */
+  background-color: #0ab110; /* dark green for even rows */
 }
 
 .table tbody tr:nth-child(odd) {
-  background-color: #4caf50; /* dark green */
+  background-color: #d9f7e6; /* light green for odd rows */
 }
 
 /* Button styles */

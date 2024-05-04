@@ -13,6 +13,7 @@
 
   <StyleEdit/>
 
+
   <PageFooter style="margin-top: 100px;" />
 
 </template>
@@ -21,20 +22,23 @@
 import PageHeader from "./components/PageHeader.vue";
 import PageFooter from "./components/PageFooter.vue";
 
-import fertilizerList from './components/Fertilizer/fertilizerList.vue'; // runnning the fertilizerList component
+// import fertilizerList from './components/Fertilizer/fertilizerList.vue'; // runnning the fertilizerList component
 
 // import userRequestList from './components/userRequestList.vue';
 // import StyleEdit from './components/styleEdit.vue';
 
-import addFertilizer from './components/Fertilizer/addFertilizer.vue';
+// import addFertilizer from './components/Fertilizer/addFertilizer.vue';
+
+//import ProductList from "./components/ProductManager/ListProduct.vue";
 
 export default {
   name: 'App',
   components: {
     PageHeader,
     PageFooter,
-    fertilizerList, //running
-    addFertilizer,
+    // fertilizerList, //running
+    // addFertilizer,
+    //ProductList
     
   },
   data() {
