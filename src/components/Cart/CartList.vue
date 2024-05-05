@@ -12,7 +12,11 @@
           v-model="searchTerm"
           @input="searchCartProducts"
         />
-        <button class="btn btn-primary" type="button" @click="searchCartProducts">
+        <button
+          class="btn btn-primary"
+          type="button"
+          @click="searchCartProducts"
+        >
           <i class="fas fa-search"></i>
           <span class="visually-hidden">Search</span>
         </button>
@@ -20,7 +24,7 @@
       <h2 class="total-price">Total Price: {{ getTotalPrice() }}</h2>
     </div>
 
-    <table class="table">
+    <table class="ProductTable">
       <thead class="thead-dark">
         <tr>
           <th>Cart ID</th>
@@ -35,7 +39,7 @@
           <td>{{ cartProduct.cId }}</td>
           <td>{{ cartProduct.productName }}</td>
           <td>
-            <input type="number" v-model="cartProduct.quantity" min="1">
+            <input type="number" v-model="cartProduct.quantity" min="1" />
           </td>
           <td>{{ calculateTotalPrice(cartProduct) }}</td>
           <td>
@@ -83,151 +87,168 @@
       @delete="performDelete"
       @cancel="cancelDelete"
     />
-    <SuccessPopup v-if="showSuccessPopup" :message="successMessage" @close="showSuccessPopup = false" />
+    <SuccessPopup
+      v-if="showSuccessPopup"
+      :message="successMessage"
+      @close="showSuccessPopup = false"
+    />
     <div v-if="error" class="alert alert-danger mt-3">{{ error }}</div>
   </div>
-  <PaymentDetails v-if="showPaymentDetails" :productName="selectedProduct.productName" @close="closePaymentDetailsModal" />
+  <PaymentDetails
+    v-if="showPaymentDetails"
+    :productName="selectedProduct.productName"
+    @close="closePaymentDetailsModal"
+  />
 </template>
 
-  <script>
+<script>
 import DeleteCartProduct from "./DeleteCartProduct.vue";
 import SuccessPopup from "./SuccessPopUp.vue";
-import PaymentDetails from './PaymentDetails.vue';
-  
-  export default {
-    data() {
-      return {
-        cartProducts: [],
-        editing: false,
-        editCId: null,
-        error: null,
-        selectedCartProductForDeletion: null,
-        searchTerm: "",
-        showSuccessPopup: false,
-        productPrices: {},
-        showPaymentDetails: false,
+import PaymentDetails from "./PaymentDetails.vue";
+
+export default {
+  data() {
+    return {
+      cartProducts: [],
+      editing: false,
+      editCId: null,
+      error: null,
+      selectedCartProductForDeletion: null,
+      searchTerm: "",
+      showSuccessPopup: false,
+      productPrices: {},
+      showPaymentDetails: false,
       selectedProduct: null,
-      };
+    };
+  },
+  mounted() {
+    this.fetchCartProductDetails();
+    this.fetchProductPrices();
+  },
+  computed: {
+    filteredCartProducts() {
+      return this.cartProducts.filter((cartProduct) => {
+        const searchLower = this.searchTerm.toLowerCase();
+        return (
+          cartProduct &&
+          cartProduct.productName &&
+          cartProduct.productName.toLowerCase().includes(searchLower)
+        );
+      });
     },
-    mounted() {
-      this.fetchCartProductDetails();
-      this.fetchProductPrices();
-    },
-    computed: {
-        filteredCartProducts() {
-        return this.cartProducts.filter((cartProduct) => {
-          const searchLower = this.searchTerm.toLowerCase();
-          return (
-            cartProduct &&
-            cartProduct.productName &&
-            cartProduct.productName.toLowerCase().includes(searchLower)
-          );
-        });
-      },
-    },
-    methods: {
-      getTotalPrice() {
+  },
+  methods: {
+    getTotalPrice() {
       let totalPrice = 0;
       this.filteredCartProducts.forEach((cartProduct) => {
         totalPrice += this.calculateTotalPrice(cartProduct);
       });
       return totalPrice.toFixed(2); // Round to 2 decimal places
     },
-        searchCartProducts() {
-        this.filteredCartProducts = this.cartProducts.filter((cartProduct) => {
-          const searchLower = this.searchTerm.toLowerCase();
-          return cartProduct.productName.toLowerCase().includes(searchLower);
-        });
-      },
-      async fetchCartProductDetails() {
-        try {
-          const response = await fetch("http://localhost:5030/api/cart/getallcartproducts");
-          if (!response.ok) {
-            throw new Error(
-              "Error fetching product details. Status: " + response.status
-            );
-          }
-          const responseData = await response.json();
-          this.cartProducts = responseData;
-        } catch (error) {
-          console.error("Error fetching product details:", error);
-          this.error = "Error fetching product details";
-        }
-      },
-  
-      deleteCartProduct(cId) {
-        this.selectedCartProductForDeletion = this.cartProducts.find(
-          (cartProduct) => cartProduct.cId === cId
+    searchCartProducts() {
+      this.filteredCartProducts = this.cartProducts.filter((cartProduct) => {
+        const searchLower = this.searchTerm.toLowerCase();
+        return cartProduct.productName.toLowerCase().includes(searchLower);
+      });
+    },
+    async fetchCartProductDetails() {
+      try {
+        const response = await fetch(
+          "http://localhost:5030/api/cart/getallcartproducts"
         );
-      },
-      async performDelete(cId) {
-        const updatedCartProducts = this.cartProducts.filter(
-          (cartProduct) => cartProduct.cId !== cId
-        );
-        this.cartProducts = updatedCartProducts;
-  
-        try {
-          await this.deleteCartProductOnServer(cId);
-        } catch (error) {
-          console.error("Error deleting product on the server:", error);
-        }
-  
-        this.selectedCartProductForDeletion = null;
-      },
-      async deleteCartProductOnServer(cId) {
-        const url = `http://localhost:5030/api/Cart/DeleteCartProducts?cId=${cId}`;
-  
-        const response = await fetch(url, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-  
         if (!response.ok) {
           throw new Error(
-            `Failed to delete products on the server. Status: ${response.status}`
+            "Error fetching product details. Status: " + response.status
           );
         }
-      },
-      cancelDelete() {
+        const responseData = await response.json();
+        this.cartProducts = responseData;
+      } catch (error) {
+        console.error("Error fetching product details:", error);
+        this.error = "Error fetching product details";
+      }
+    },
+
+    deleteCartProduct(cId) {
+      this.selectedCartProductForDeletion = this.cartProducts.find(
+        (cartProduct) => cartProduct.cId === cId
+      );
+    },
+    async performDelete(cId) {
+      const updatedCartProducts = this.cartProducts.filter(
+        (cartProduct) => cartProduct.cId !== cId
+      );
+      this.cartProducts = updatedCartProducts;
+
+      try {
+        await this.deleteCartProductOnServer(cId);
+      } catch (error) {
+        console.error("Error deleting product on the server:", error);
+      }
+
+      this.selectedCartProductForDeletion = null;
+    },
+    async deleteCartProductOnServer(cId) {
+      const url = `http://localhost:5030/api/Cart/DeleteCartProducts?cId=${cId}`;
+
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to delete products on the server. Status: ${response.status}`
+        );
+      }
+    },
+    cancelDelete() {
       this.selectedCartProductForDeletion = null;
     },
     async saveQuantity(cartProduct) {
-  try {
-    const requestBody = {
-      cId: cartProduct.cId,
-      quantity: cartProduct.quantity,
-      ProductName: cartProduct.productName // Include the ProductName field
-    };
-
-    const response = await fetch(`http://localhost:5030/api/Cart/UpdateCartProducts`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(requestBody)
-    });
-
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(`Failed to update quantity. Status: ${response.status}. Error: ${errorMessage}`);
-    }
-    this.showSuccessPopup = true;
-    
-    // Clear success message after some time (e.g., 3 seconds)
-    setTimeout(() => {
-      this.showSuccessPopup = false;
-    }, 3000);
-  } catch (error) {
-    console.error("Error updating quantity:", error);
-    this.error = error.message; // Display more informative error message
-  }
-},
-
-async fetchProductPrices() {
       try {
-        const response = await fetch("http://localhost:5030/api/Product/GetAllProducts");
+        const requestBody = {
+          cId: cartProduct.cId,
+          quantity: cartProduct.quantity,
+          ProductName: cartProduct.productName, // Include the ProductName field
+        };
+
+        const response = await fetch(
+          `http://localhost:5030/api/Cart/UpdateCartProducts`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestBody),
+          }
+        );
+
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          throw new Error(
+            `Failed to update quantity. Status: ${response.status}. Error: ${errorMessage}`
+          );
+        }
+        this.showSuccessPopup = true;
+
+        // Clear success message after some time (e.g., 3 seconds)
+        setTimeout(() => {
+          this.showSuccessPopup = false;
+        }, 3000);
+      } catch (error) {
+        console.error("Error updating quantity:", error);
+        this.error = error.message; // Display more informative error message
+      }
+    },
+
+    async fetchProductPrices() {
+      try {
+        const response = await fetch(
+          "http://localhost:5030/api/Product/GetAllProducts"
+        );
         if (!response.ok) {
           throw new Error("Error fetching product prices");
         }
@@ -258,17 +279,16 @@ async fetchProductPrices() {
       this.showPaymentDetails = false;
       // Reset selected product
       this.selectedProduct = null;
-    }
     },
+  },
 
- 
-    components:{
-        DeleteCartProduct,
-        SuccessPopup,
-        PaymentDetails,
-    }
-  };
-  </script>
+  components: {
+    DeleteCartProduct,
+    SuccessPopup,
+    PaymentDetails,
+  },
+};
+</script>
 
 <style scoped>
 /* Overall page styling */
@@ -347,7 +367,7 @@ async fetchProductPrices() {
 
 .total-price {
   font-style: italic;
- 
+
   margin-top: 10px;
   font-size: 18px;
   color: #333;
@@ -366,8 +386,7 @@ async fetchProductPrices() {
   border: 0;
 }
 
-
-.table {
+.ProductTable {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
@@ -390,11 +409,11 @@ th {
 }
 
 /* Alternating row colors */
-.table tbody tr:nth-child(even) {
+.ProductTable tbody tr:nth-child(even) {
   background-color: #0ab110; /* dark green for even rows */
 }
 
-.table tbody tr:nth-child(odd) {
+.ProductTable tbody tr:nth-child(odd) {
   background-color: #d9f7e6; /* light green for odd rows */
 }
 

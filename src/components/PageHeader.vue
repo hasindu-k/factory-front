@@ -24,7 +24,8 @@
     </header>
     <ProductList v-if="currentComponent === 'ProductList'" />
   <CartList v-if="currentComponent === 'CartList'" />
-  <fertilizerList v-if="currentComponent === 'fertilizerList'" />
+  <fertilizerList v-if="currentComponent === 'fertilizerList'" @addFertilizerClicked="navigateToFertilizerList"/>
+  <addFertilizer v-if="showAddFertilizer" @addFertilizerClicked="backToFertilizerList" @cancel="backToFertilizerList" style="margin-top: 2%;" />
   <ManagerList v-if="currentComponent === 'ManagerList'" />
   </template>
   
@@ -41,6 +42,7 @@ export default {
       searchQuery: '',
       allItems: [], 
       filteredItems: [],
+      showAddFertilizer: false,
     };
   },
   methods: {
@@ -82,6 +84,15 @@ export default {
         item.name.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
+    navigateToFertilizerList() {
+      // Handle navigation here
+      this.showFertilizerList = false;
+      this.showAddFertilizer = true;
+    },
+    backToFertilizerList(){
+      this.showFertilizerList = true;
+      this.showAddFertilizer = false;
+    }
   },
   components: {
     ProductList,
