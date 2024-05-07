@@ -16,7 +16,16 @@
           <button type="button" :class="{ 'btn btn-primary active': currentComponent === 'CartList' }" @click="showCartList">Cart</button>
         </li>
         <li>
-          <button type="button" :class="{ 'btn btn-primary active': currentComponent === 'ManagerList' }" @click="showManagerList">Manager</button>
+          <button type="button" :class="{ 'btn btn-primary active': currentComponent === 'ManagerList' }" @click="showManagerList">Product Manager</button>
+        </li>
+        <li>
+          <button type="button" :class="{ 'btn btn-primary active': currentComponent === 'EmployeeList' }" @click="showEmployeeList">Employee Leave</button>
+        </li>
+        <li>
+          <button type="button" :class="{ 'btn btn-primary active': currentComponent === 'dashboardDelivery' }" @click="showDeliveryList">Delivery</button>
+        </li>
+        <li>
+          <button type="button" :class="{ 'btn btn-primary active': currentComponent === 'feedbackList' }" @click="showFeedbackList">Feedback</button>
         </li>
 
         </ul>
@@ -27,6 +36,9 @@
   <fertilizerList v-if="currentComponent === 'fertilizerList'" @addFertilizerClicked="navigateToFertilizerList"/>
   <addFertilizer v-if="showAddFertilizer" @addFertilizerClicked="backToFertilizerList" @cancel="backToFertilizerList" style="margin-top: 2%;" />
   <ManagerList v-if="currentComponent === 'ManagerList'" />
+  <EmployeeList v-if="currentComponent === 'EmployeeList'" />
+  <dashboardDelivery v-if="currentComponent === 'dashboardDelivery'" />
+  <feedbackList v-if="currentComponent === 'feedbackList'" />
   </template>
   
   <script>
@@ -34,7 +46,10 @@
 import ProductList from './Products/ProductList.vue';
 import fertilizerList from './Fertilizer/fertilizerList.vue';
 import ManagerList from './ProductManager/ListProduct.vue'
-
+import EmployeeList from './EmployeeLeave/List.vue'
+// import DeliveryList from './dashboardDelivery.vue'
+import dashboardDelivery from './dashboardDelivery.vue';
+import feedbackList from './Feedback/feedbackList.vue';
 export default {
   data() {
     return {
@@ -62,12 +77,28 @@ export default {
       await this.fetchData(); 
       this.filterItems(); 
     },
+    async showEmployeeList() {
+      this.currentComponent = 'EmployeeList';
+      await this.fetchData(); 
+      this.filterItems(); 
+    },
     
     async showfertilizerList() {
       this.currentComponent = 'fertilizerList';
       await this.fetchData(); 
       this.filterItems();
     },
+    async showDeliveryList() {
+      this.currentComponent = 'dashboardDelivery';
+      await this.fetchData(); 
+      this.filterItems(); 
+    },
+    async showFeedbackList() {
+      this.currentComponent = 'feedbackList';
+      await this.fetchData(); 
+      this.filterItems(); 
+    },
+
     handleNavigation() {
       this.fetchData();
       this.filterItems(); 
@@ -99,6 +130,9 @@ export default {
     CartList,
     fertilizerList,
     ManagerList,
+    EmployeeList,
+    dashboardDelivery,
+    feedbackList
   },
 };
 

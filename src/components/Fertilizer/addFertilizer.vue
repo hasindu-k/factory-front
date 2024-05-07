@@ -137,6 +137,8 @@
       <!-- form-container -->
     </div>
   </div>
+
+
 </template>
 
 <!-- <script>
@@ -246,36 +248,39 @@ export default {
   },
   methods: {
     addFertilizer() {
-      // Perform validation if necessary
-      // Example: check if all required fields are filled
-      if (
+      console.log("Adding fertilizer...");
+    // Perform validation if necessary
+    // Example: check if all required fields are filled
+    if (
         !this.fName ||
         !this.applicationMethod ||
         !this.unitPrice ||
         !this.stockQuantity ||
         !this.measurementUnit ||
         !this.description
-      ) {
+    ) {
         this.error = "Please fill out all fields.";
         return;
-      }
+    }
 
-      // Create a new fertilizer object
-      const newFertilizer = {
+    // Create a new fertilizer object
+    const newFertilizer = {
         fName: this.fName,
         applicationMethod: this.applicationMethod,
         unitPrice: this.unitPrice,
         stockQuantity: this.stockQuantity,
         measurementUnit: this.measurementUnit,
         description: this.description,
-      };
+        
+    };
+    console.log("Adding fertilizer123..");
+    // Emit an event to pass the new fertilizer data to the parent component
+    this.$emit('addFertilizer', newFertilizer);
 
-      // Emit an event to pass the new fertilizer data to the parent component
-      this.$emit('addFertilizer', newFertilizer);
+    // Reset the form after adding the fertilizer
+    this.clearForm();
+},
 
-      // Reset the form after adding the fertilizer
-      this.resetForm();
-    },
     cancel() {
       this.$emit('cancel');
     },

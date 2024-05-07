@@ -84,7 +84,8 @@
         
     </div>
 
-   
+    <addFertilizer @addFertilizer="handleAddFertilizer" @cancel="closeModal" />
+
     <!-- <button type="button" class="btn btn-primary" @click="addFertilizerClicked">
       ADD Fertilizer
     </button> -->
@@ -111,32 +112,20 @@ export default {
   },
   computed: {
     filteredFertilizers() {
-      return this.fertilizers.filter((fertilizer) =>
-        fertilizer.fName.toLowerCase().includes(this.searchTerm.toLowerCase())
-      );
-    },
+    return this.fertilizers.filter((fertilizer) =>
+      fertilizer.fName && fertilizer.fName.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  },
   },
   methods: {
-    showAddFertilizerModal() {
-      this.showModal = true; // Show the modal when the "Add Product" button is clicked
-      console.log(this.showModal+" Add fertilizer clicked");
-      
-    },
-    closeModal() {
-      this.showModal = false; // Close the modal
-    },
-    addFertilizerToList(newFertilizerData) {
+    handleAddFertilizer(newFertilizerData) {
+    console.log("Received new fertilizer data:", newFertilizerData);
+    // Add the new fertilizer to the list
+    this.addFertilizerToList(newFertilizerData);
+  },
+  async addFertilizerToList(newFertilizerData) {
       try {
-        const newFertilizerData = {
-          fName: this.fName,
-          applicationMethod: this.applicationMethod,
-          unitPrice: this.unitPrice,
-          stockQuantity: this.stockQuantity,
-          measurementUnit: this.measurementUnit,
-          description: this.description,
-        };
-
-        const response = fetch(
+        const response = await fetch(
           "http://localhost:5030/api/Fertilizer/PostFertilizer",
           {
             method: "POST",
@@ -144,6 +133,7 @@ export default {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(newFertilizerData),
+            
           }
         );
 
@@ -153,21 +143,26 @@ export default {
           );
         }
 
-        // Assuming you want to refresh the list of fertilizers after adding a new one
-        //this.fetchFertilizers();
-
-        // Clear input fields after successful addition
-        this.clearForm();
-
-        // Optionally, you can display a success message or perform any other action
+        // Assuming the server returns the newly added fertilizer data
+        const addedFertilizer = await response.json();
+        this.fertilizers.push(addedFertilizer);
+        this.fetchFertilizers();
+        // Display success message
         alert("Fertilizer added successfully!");
+
+        // Close the modal after adding the fertilizer
+        this.closeModal();
       } catch (error) {
-        console.error("Error added fertilizer:", error);
+        console.error("Error adding fertilizer:", error);
+        // Display error message
         alert("Error adding fertilizer. Please try again.");
       }
-      this.fertilizers.push(newFertilizerData);
-      // Close the modal after adding the product
-      this.closeModal();
+    },
+    closeModal() {
+      this.showModal = false; // Close the modal
+    },
+    showAddFertilizerModal() {
+      this.showModal = true; // Show the modal
     },
     addFertilizerClicked() {
       this.$emit("addFertilizerClicked");
@@ -227,7 +222,7 @@ export default {
             <td style="text-align: center;">${fertilizer.fName}</td>
             <td style="text-align: center;">${fertilizer.unitPrice}</td>
             <td style="text-align: center;">${fertilizer.stockQuantity}</td>
-            <td style="text-align: center;">${fertilizer.creationDate}</td> //edited
+            <td style="text-align: center;">${fertilizer.creationDate}</td>
             <td style="text-align: center;">${fertilizer.lastUpdate}</td>
           </tr>
         `;

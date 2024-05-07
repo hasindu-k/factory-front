@@ -237,7 +237,7 @@ export default {
     },
     components: {
         // EditList,
-        EditEmployee,
+      EditEmployee,
     },
 };
 </script>

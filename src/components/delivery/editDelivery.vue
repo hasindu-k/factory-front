@@ -79,7 +79,7 @@
           console.log("Delivery Id:", deliveryId);
   
          
-          const response = await fetch(`http://localhost:5123/api/Delivery/Updatedeliveries/deliveryId=${this.deliveryId}`);
+          const response = await fetch(`http://localhost:5030/api/Delivery/Updatedeliveries/deliveryId=${this.deliveryId}`);
           if (!response.ok) {
             throw new Error("Failed to retrieve delivery details");
           }
@@ -115,7 +115,7 @@
           };
   
           ///${this.$route.params.id}
-          const response = await fetch(`http://localhost:5123/api/Delivery/Updatedeliveries/${this.$route.params.id}`, { 
+          const response = await fetch(`http://localhost:5030/api/Delivery/Updatedeliveries/${this.$route.params.id}`, { 
             method: "PUT",
             headers: {
               "Content-Type": "application/json",

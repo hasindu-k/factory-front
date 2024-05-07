@@ -4,7 +4,9 @@
 
   <addFertilizer v-if="showAddFertilizer" @addFertilizerClicked="backToFertilizerList" @cancel="backToFertilizerList" style="margin-top: 2%;" /> 
   <!-- v-if="showAddFertilizer" -->
-
+  <div id="app">
+    <router-view />
+  </div>
   <fertilizerList v-if="showFertilizerList" msg="Fertilizer List"  @addFertilizerClicked="navigateToFertilizerList"
   style="margin-top: 5%;" />
 
@@ -21,6 +23,7 @@
 <script>
 import PageHeader from "./components/PageHeader.vue";
 import PageFooter from "./components/PageFooter.vue";
+
 
 // import fertilizerList from './components/Fertilizer/fertilizerList.vue'; // runnning the fertilizerList component
 
