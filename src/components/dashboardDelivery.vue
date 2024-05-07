@@ -3,36 +3,35 @@
     <div class="dashboard-box">
       <h1 class="header">Hello Delivery Manager !</h1>
       <div class="section">
-        <button @click="goToAddDriver" class="button green-button">Add Driver</button>
-        <button @click="goToAddDelivery" class="button green-button">Add Delivery</button>
+        <button @click="goToAddDriver" class="button green-button">
+          Add Driver
+        </button>
+        <button @click="goToAddDelivery" class="button green-button">
+          Add Delivery
+        </button>
       </div>
     </div>
   </div>
-  
 </template>
 
+<script>
+export default {
+  methods: {
+    goToAddDriver() {
+      // addDriver page
+      this.$router.push("/add-driver-form");
+    },
+    goToAddDelivery() {
+      //  addDelivery page
+      this.$router.push("/add-delivery-form");
+    },
+  },
+};
+</script>
 
-
-
-  
-  <script>
-  export default {
-    methods: {
-      goToAddDriver() {
-        // addDriver page 
-        this.$router.push('/add-driver-form');
-      },
-      goToAddDelivery() {
-        //  addDelivery page
-        this.$router.push('/add-delivery-form');
-      }
-    }
-  }
-  </script>
-  
-  <style>
-  .background-container {
-  background-image: url('F:\OneDrive\Desktop\TEA FACTORY\teaaa.jpg'); /* Add your background image URL */
+<style>
+.background-container {
+  background-image: url('../assets/teaaa.jpg'); 
   background-size: cover; /* Cover the entire container */
   background-position: center; /* Center the background image */
   width: 100%;
@@ -42,22 +41,26 @@
   align-items: center;
 }
 
-
 .dashboard-box {
-  background-color: rgba(255, 255, 255, 0.9); /* Transparent white background color */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); /* Transparent white background color */
   padding: 50px; /* Add padding for spacing */
   border-radius: 20px; /* Add rounded corners */
-   
-    /* justify-content: center; */
+
+  /* justify-content: center; */
   /* align-items: center;  */
-  height: 30vh; 
+  height: 30vh;
   width: 50%;
 }
 
 .header {
   font-size: 24px;
   margin-bottom: 20px;
-  text-align: left; 
+  text-align: left;
 }
 
 .section {

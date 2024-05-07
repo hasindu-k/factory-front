@@ -88,7 +88,7 @@
   
           // Connection
           const response = await fetch(
-            "http://localhost:5123/api/Delivery/Postdeliveries",
+            "http://localhost:5030/api/Delivery/Postdeliveries",
             {
               method: "POST",
               headers: {
@@ -128,7 +128,7 @@
       async retrieveDeliveries() {                    //change here
         try {
           const response = await fetch(
-            "http://localhost:5123/api/Delivery/GetAlldeliveries"
+            "http://localhost:5030/api/Delivery/GetAlldeliveries"
           );
           if (!response.ok) {
             throw new Error(

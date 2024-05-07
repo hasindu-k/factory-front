@@ -87,7 +87,7 @@ export default {
     async retrieveDeliveries() {
       try {
         const response = await fetch(
-          "http://localhost:5123/api/Delivery/GetAlldeliveries" //changee
+          "http://localhost:5030/api/Delivery/GetAlldeliveries" //changee
         );
         if (!response.ok) {
           throw new Error("Error fetching delivery details");
@@ -113,7 +113,7 @@ export default {
 
       try {
         const response = await fetch(
-          `http://localhost:5123/api/Delivery/Deletedelivery?deliveryId=${delivery.deliveryId}`, //changeee
+          `http://localhost:5030/api/Delivery/Deletedelivery?deliveryId=${delivery.deliveryId}`, //changeee
           {
             method: "DELETE",
             headers: {
