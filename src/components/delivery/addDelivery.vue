@@ -88,7 +88,7 @@
   
           // Connection
           const response = await fetch(
-            "http://localhost:5030/api/Delivery/Postdeliveries",
+            "http://localhost:5154/api/Delivery/Postdeliveries",
             {
               method: "POST",
               headers: {
@@ -128,7 +128,7 @@
       async retrieveDeliveries() {                    //change here
         try {
           const response = await fetch(
-            "http://localhost:5030/api/Delivery/GetAlldeliveries"
+            "http://localhost:5154/api/Delivery/GetAlldeliveries"
           );
           if (!response.ok) {
             throw new Error(
@@ -170,7 +170,7 @@
 
 .background {
   /* background-color: #6ec556; */
-  background-image: url('F:\OneDrive\Desktop\TEA FACTORY\form.png');
+  background-image: url('D:\Downloads\bgm-scaled.jpg');
   background-color: rgba(110, 197, 86, 0.3);
   background-size: 100%; /* Cover the entire container */
   background-position: center; /* Center the background image */

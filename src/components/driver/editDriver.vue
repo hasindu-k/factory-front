@@ -65,7 +65,7 @@ export default {
         console.log("Driver Id:", driverId);
 
        
-        const response = await fetch(`http://localhost:5123/api/Driver/Updatedrivers/${driverId}`);   //{this.$route.params.id}
+        const response = await fetch(`http://localhost:5154/api/Driver/Updatedrivers/${driverId}`);   //{this.$route.params.id}
         if (!response.ok) {
           throw new Error("Failed to retrieve driver details");
         }
@@ -99,7 +99,7 @@ export default {
 
     console.log(formData)
 
-    const response = await fetch("http://localhost:5123/api/Driver/Updatedrivers", {
+    const response = await fetch("http://localhost:5154/api/Driver/Updatedrivers", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -1,4 +1,5 @@
 <template>
+  <PageHeader/>
   <div class="background-container">
     <div class="dashboard-box">
       <h1 class="header">Hello Delivery Manager !</h1>
@@ -12,10 +13,16 @@
       </div>
     </div>
   </div>
+  <!-- <PageFooter/> -->
 </template>
 
 <script>
+import PageHeader from "./PageHeaderManager.vue";
+
 export default {
+  components: {
+    PageHeader,
+  },
   methods: {
     goToAddDriver() {
       // addDriver page
@@ -29,7 +36,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .background-container {
   background-image: url('../assets/teaaa.jpg'); 
   background-size: cover; /* Cover the entire container */

@@ -28,7 +28,7 @@ export default {
     deleteEmployeeLeave() {
       // Assuming you have an API endpoint to delete the leave based on its ID
       // You can replace the URL and HTTP method with your actual backend API endpoint
-      fetch(`http://localhost:5030/api/Leave/DeleteEmployeeLeave/${this.leaveIdToDelete}`, {
+      fetch(`http://localhost:5154/api/Leave/DeleteEmployeeLeave/${this.leaveIdToDelete}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

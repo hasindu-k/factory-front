@@ -1,5 +1,6 @@
 <template>
-  <div class="add-leave">
+  <PageHeader/>
+  <div class="add-leave" style="margin-top: 100px;">
     <h1>Add Employee Leave</h1>
 
     <form @submit.prevent="addEmployeeLeave">
@@ -24,6 +25,8 @@
       <input id="endDate" v-model="newLeave.days" type="text" required>
 
       <button type="submit" @click="submitForm">Add Leave</button>
+      <br><br>
+      <button type="submit" @click="navigateToList">Back to List</button>
     </form>
 
     <p>{{ successMessage }}</p>
@@ -32,7 +35,12 @@
 </template>
 
 <script>
+import PageHeader from '../PageHeaderManager.vue';
+
 export default {
+  components: {
+      PageHeader
+    },
   name: 'AddEmployeeLeave',
   data() {
     return {
@@ -51,6 +59,9 @@ export default {
       this.submitFormData();
       this.$emit('addLeaveClicked');
     },
+    navigateToList() {
+      this.$router.push('/employee-leave-list'); 
+    },
     async submitFormData() {
       try {
         const formData = {
@@ -62,7 +73,7 @@ export default {
 
         console.log(formData)
 
-        const response = await fetch("http://localhost:5030/api/Leave/AddEmployerLeave", {
+        const response = await fetch("http://localhost:5154/api/Leave/AddEmployerLeave", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

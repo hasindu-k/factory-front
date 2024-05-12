@@ -52,7 +52,7 @@ export default {
     methods: {
         async login() {
             try {
-                const response = await fetch("http://localhost:5207/api/Customer/Login", {
+                const response = await fetch("http://localhost:5154/api/Customer/Login", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

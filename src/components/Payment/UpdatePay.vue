@@ -45,7 +45,7 @@
         try {
           const transactionID = this.$route.params.id;
   
-          const response = await fetch(`http://localhost:5030/api/Transactions/${transactionID}`);
+          const response = await fetch(`http://localhost:5154/api/Transactions/${transactionID}`);
           if (!response.ok) {
             throw new Error("Failed to retrieve transaction details");
           }
@@ -70,7 +70,7 @@
             Timestamp: this.timestamp
           };
   
-          const response = await fetch(`http://localhost:5030/api/Transactions/${this.$route.params.id}`, {
+          const response = await fetch(`http://localhost:5154/api/Transactions/${this.$route.params.id}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",

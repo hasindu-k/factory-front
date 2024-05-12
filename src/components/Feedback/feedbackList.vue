@@ -1,4 +1,5 @@
 <template>
+    <PageHeader />
     <div class="feedback-list" v-if="list">
         <h1>Feedback List</h1>
         <div class="feedback-table">
@@ -54,11 +55,13 @@
 </template>
 
 <script>
+import PageHeader from '../PageHeaderManager.vue';
 import EditFeedback from './editFeedback.vue'; // Import EditFeedback component
 
 export default {
     components: {
-        EditFeedback
+        EditFeedback,
+        PageHeader,
     },
     data() {
         return {
@@ -80,7 +83,7 @@ export default {
         // Fetch feedbacks from the API
         async fetchFeedbacks() {
             try {
-                const response = await fetch("http://localhost:5030/api/Feedback/GetAllFeedbacks");
+                const response = await fetch("http://localhost:5154/api/Feedback/GetAllFeedbacks");
                 if (!response.ok) {
                     throw new Error(`Failed to fetch feedbacks. Status: ${response.status}`);
                 }
@@ -96,7 +99,7 @@ export default {
         async updateFeedback(updatedFeedback) {
             try {
                 console.log("Updated Feedback:", updatedFeedback);
-                const response = await fetch("http://localhost:5030/api/FeedbackCustomer/UpdateCusFeedbacks", {
+                const response = await fetch("http://localhost:5154/api/FeedbackCustomer/UpdateCusFeedbacks", {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -121,7 +124,7 @@ export default {
                 const confirmed = window.confirm("Are you sure you want to delete this feedback?");
                 if (!confirmed) return; // If user cancels, do nothing
 
-                const response = await fetch(`http://localhost:5030/api/Feedback/DeleteFeedback/${feedback.fBackID}`, {
+                const response = await fetch(`http://localhost:5154/api/Feedback/DeleteFeedback/${feedback.fBackID}`, {
                     method: "DELETE",
                 });
 

@@ -1,4 +1,5 @@
 <template>
+  <PageHeader />
   <div class="text" v-if="!showModal">Fertilizer List</div>
   <div class="table-container">
     <div class="search-bar">
@@ -70,12 +71,13 @@
     </div>
 
     <!-- Button to add a new product -->
-    <button @click="showAddFertilizerModal" class="btn btn-primary">
+    <button @click="navigateToAdd" class="btn btn-primary">
       Add Ferilizer
     </button>
 
-    <!-- Modal for adding a new product -->
-    <div v-if="showModal" >
+    
+
+    <!-- <div v-if="showModal" >
       <addFertilizer @add="addFertilizerToList" @cancel="closeModal" />
       </div>
       
@@ -84,7 +86,7 @@
         
     </div>
 
-    <addFertilizer @addFertilizer="handleAddFertilizer" @cancel="closeModal" />
+    <addFertilizer @addFertilizer="handleAddFertilizer" @cancel="closeModal" /> -->
 
     <!-- <button type="button" class="btn btn-primary" @click="addFertilizerClicked">
       ADD Fertilizer
@@ -95,7 +97,8 @@
 
 <script>
 import EditFertilizer from "./editFertilizer.vue";
-import addFertilizer from "./addFertilizer.vue";
+// import addFertilizer from "./addFertilizer.vue";
+import PageHeader from "../PageHeaderManager.vue";
 
 export default {
   name: "FertilizerList",
@@ -112,61 +115,19 @@ export default {
   },
   computed: {
     filteredFertilizers() {
-    return this.fertilizers.filter((fertilizer) =>
-      fertilizer.fName && fertilizer.fName.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
-  },
+      return this.fertilizers.filter(
+        (fertilizer) =>
+          fertilizer.fName &&
+          fertilizer.fName.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    },
   },
   methods: {
-    handleAddFertilizer(newFertilizerData) {
-    console.log("Received new fertilizer data:", newFertilizerData);
-    // Add the new fertilizer to the list
-    this.addFertilizerToList(newFertilizerData);
-  },
-  async addFertilizerToList(newFertilizerData) {
-      try {
-        const response = await fetch(
-          "http://localhost:5030/api/Fertilizer/PostFertilizer",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newFertilizerData),
-            
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            `Failed to add fertilizer. Status: ${response.status}`
-          );
-        }
-
-        // Assuming the server returns the newly added fertilizer data
-        const addedFertilizer = await response.json();
-        this.fertilizers.push(addedFertilizer);
-        this.fetchFertilizers();
-        // Display success message
-        alert("Fertilizer added successfully!");
-
-        // Close the modal after adding the fertilizer
-        this.closeModal();
-      } catch (error) {
-        console.error("Error adding fertilizer:", error);
-        // Display error message
-        alert("Error adding fertilizer. Please try again.");
-      }
+    navigateToAdd() {
+      this.$router.push("/ferilizer-form");
     },
-    closeModal() {
-      this.showModal = false; // Close the modal
-    },
-    showAddFertilizerModal() {
-      this.showModal = true; // Show the modal
-    },
-    addFertilizerClicked() {
-      this.$emit("addFertilizerClicked");
-    },
+    
+    
     generateReport() {
       // Get the current date and time
       const currentDateTime = new Date().toLocaleString("en-US", {
@@ -216,16 +177,15 @@ export default {
 
       // Iterate through all products and add each product's details to the table
       this.fertilizers.forEach((fertilizer) => {
-        tableHtml += `
-          <tr>
+        tableHtml += 
+          `<tr>
             <td style="text-align: center;">${fertilizer.fId}</td>
             <td style="text-align: center;">${fertilizer.fName}</td>
             <td style="text-align: center;">${fertilizer.unitPrice}</td>
             <td style="text-align: center;">${fertilizer.stockQuantity}</td>
             <td style="text-align: center;">${fertilizer.creationDate}</td>
             <td style="text-align: center;">${fertilizer.lastUpdate}</td>
-          </tr>
-        `;
+          </tr>`;
       });
 
       // Close the table tag
@@ -234,7 +194,7 @@ export default {
       // Convert HTML table to PDF
       const opt = {
         margin: 1,
-        filename: `StockReport_${currentDateTime.replace(
+        filename: `FertilizerReport_${currentDateTime.replace(
           /[^\w\s]/gi,
           "_"
         )}.pdf`,
@@ -249,7 +209,7 @@ export default {
     async fetchFertilizers() {
       try {
         const response = await fetch(
-          "http://localhost:5030/api/Fertilizer/GetAllFertilizers"
+          "http://localhost:5154/api/Fertilizer/GetAllFertilizers"
         );
         if (!response.ok) {
           throw new Error(
@@ -280,7 +240,7 @@ export default {
     async updateFertilizer(updatedFertilizer) {
       try {
         const response = await fetch(
-          "http://localhost:5030/api/Fertilizer/UpdateFertilizer",
+          "http://localhost:5154/api/Fertilizer/UpdateFertilizer",
           {
             method: "PUT",
             headers: {
@@ -311,7 +271,7 @@ export default {
         if (!confirmed) return; // If user cancels, do nothing
 
         const response = await fetch(
-          `http://localhost:5030/api/Fertilizer/DeleteFertilizer/${fertilizer.fId}`,
+          `http://localhost:5154/api/Fertilizer/DeleteFertilizer/${fertilizer.fId}`,
           {
             method: "DELETE",
           }
@@ -335,7 +295,8 @@ export default {
   },
   components: {
     EditFertilizer,
-    addFertilizer,
+    // addFertilizer,
+    PageHeader,
   },
 };
 </script>

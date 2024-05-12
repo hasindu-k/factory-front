@@ -38,9 +38,15 @@
               Delete</button
             ><br /><br />
 
-            <router-link :to="{ name: 'editDelivery', params: { id: delivery.deliveryId }, query : delivery }">
+            <router-link
+              :to="{
+                name: 'editDelivery',
+                params: { id: delivery.deliveryId },
+                query: delivery,
+              }"
+            >
               <button class="btn btn-warning">Update</button>
-              </router-link>
+            </router-link>
             <!-- <button @click="updateDelivery(delivery)" class="btn btn-warning">
               Update
             </button> -->
@@ -56,13 +62,13 @@
     >
   </div>
 </template>
-  
-  <script>
+
+<script>
 export default {
   data() {
     return {
       deliveries: [],
-      searchQuery: '',
+      searchQuery: "",
     };
   },
 
@@ -87,7 +93,7 @@ export default {
     async retrieveDeliveries() {
       try {
         const response = await fetch(
-          "http://localhost:5030/api/Delivery/GetAlldeliveries" //changee
+          "http://localhost:5154/api/Delivery/GetAlldeliveries" //changee
         );
         if (!response.ok) {
           throw new Error("Error fetching delivery details");
@@ -97,9 +103,7 @@ export default {
       } catch (error) {
         console.error("Error fetching delivery details:", error);
         // this.showToastMessage("Error fetching delivery details");
-        
       }
-      
     },
 
     async deleteDelivery(delivery) {
@@ -113,7 +117,7 @@ export default {
 
       try {
         const response = await fetch(
-          `http://localhost:5030/api/Delivery/Deletedelivery?deliveryId=${delivery.deliveryId}`, //changeee
+          `http://localhost:5154/api/Delivery/Deletedelivery?deliveryId=${delivery.deliveryId}`, //changeee
           {
             method: "DELETE",
             headers: {
@@ -141,14 +145,14 @@ export default {
 
     //change updateee
     updateDelivery(delivery) {
-      console.log("Update button clicked for delivery:", delivery); 
-     
+      console.log("Update button clicked for delivery:", delivery);
+
       const router = this.$router;
       if (router) {
         router.push({
-          name: 'editDelivery',
+          name: "editDelivery",
           params: { id: delivery.deliveryId },
-          query: delivery
+          query: delivery,
         });
       } else {
         console.error("Router instance is undefined.");
@@ -157,8 +161,8 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .search-container {
   margin-bottom: 20px;
 }
@@ -225,7 +229,6 @@ export default {
   text-decoration: none;
   transition: background-color 0.3s ease;
 }
-
 
 .back-button:hover {
   background-color: #388e3c;

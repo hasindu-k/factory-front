@@ -89,7 +89,7 @@ export default {
     async retrieveDrivers() {
       try {
         const response = await fetch(
-          "http://localhost:5123/api/Driver/GetAlldrivers"
+          "http://localhost:5154/api/Driver/GetAlldrivers"
         );
         if (!response.ok) {
           throw new Error("Error fetching driver details");
@@ -111,7 +111,7 @@ export default {
       }
       try {
         const response = await fetch(
-          'http://localhost:5123/api/Driver/Deletedriver?driverId=${driver.driverId}',
+          'http://localhost:5154/api/Driver/Deletedriver?driverId=${driver.driverId}',
           {
             method: "DELETE",
             headers: {

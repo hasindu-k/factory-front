@@ -271,7 +271,7 @@ export default {
                 managerPassword: this.newManager.managerPassword,
           };
           //Connection
-          const response = await fetch("http://localhost:5207/api/User/PostManagers", {
+          const response = await fetch("http://localhost:5154/api/User/PostManagers", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -317,7 +317,7 @@ export default {
         },
         async fetchManagers() {
         try {
-            const response = await fetch("http://localhost:5207/api/User/GetAllManagers");
+            const response = await fetch("http://localhost:5154/api/User/GetAllManagers");
             if (!response.ok) {
             throw new Error(
                 `Failed to fetch managers. Status: ${response.status}`
@@ -353,7 +353,7 @@ export default {
         //     };
 
             
-        //     fetch("http://localhost:5207/api/User/UpdateManagers", {
+        //     fetch("http://localhost:5154/api/User/UpdateManagers", {
         //         method: "PUT",
         //         headers: {
         //             "Content-Type": "application/json",
@@ -383,7 +383,7 @@ export default {
         async updateManager(updatedManager) {
             try {
             const response = await fetch(
-                "http://localhost:5207/api/User/UpdateManagers",
+                "http://localhost:5154/api/User/UpdateManagers",
                 {
                 method: "PUT",
                 headers: {
@@ -427,7 +427,7 @@ export default {
         this.selectedManagerForDeletion = null;
         },
         async deleteManagerOnServer(managerID) {
-        const url = `http://localhost:5207/api/User/DeleteManager?managerID=${managerID}`;
+        const url = `http://localhost:5154/api/User/DeleteManager?managerID=${managerID}`;
         const response = await fetch(url, {
             method: "DELETE",
             headers: {
@@ -524,7 +524,7 @@ export default {
                 managerPassword: this.newManager.managerPassword,
             };
 
-            fetch("http://localhost:5207/api/User/PostManagers", {
+            fetch("http://localhost:5154/api/User/PostManagers", {
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json",
