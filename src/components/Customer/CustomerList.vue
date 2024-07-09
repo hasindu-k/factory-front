@@ -108,7 +108,7 @@ export default {
         },
         async fetchCustomers() {
         try {
-            const response = await fetch("http://localhost:5207/api/Customer/GetAllCustomers");
+            const response = await fetch("http://localhost:5154/api/Customer/GetAllCustomers");
             if (!response.ok) {
             throw new Error(
                 `Failed to fetch customers. Status: ${response.status}`
@@ -144,7 +144,7 @@ export default {
         this.selectedCustomerForDeletion = null;
         },
         async deleteCustomerOnServer(cusID) {
-        const url = `http://localhost:5207/api/Customer/DeleteCustomer?cusID=${cusID}`;
+        const url = `http://localhost:5154/api/Customer/DeleteCustomer?cusID=${cusID}`;
         const response = await fetch(url, {
             method: "DELETE",
             headers: {
@@ -210,7 +210,7 @@ export default {
                 managerPassword: this.newManager.managerPassword,
             };
 
-            fetch("http://localhost:5207/api/Users/PostManagers", {
+            fetch("http://localhost:5154/api/Users/PostManagers", {
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json",

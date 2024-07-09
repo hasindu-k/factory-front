@@ -154,7 +154,7 @@ export default {
 
         // Connection
         const response = await fetch(
-          "http://localhost:5123/api/Driver/Postdrivers",
+          "http://localhost:5154/api/Driver/Postdrivers",
           {
             method: "POST",
             headers: {
@@ -193,7 +193,7 @@ export default {
     async retrieveDrivers() {
       try {
         const response = await fetch(
-          "http://localhost:5123/api/Driver/GetAlldrivers"
+          "http://localhost:5154/api/Driver/GetAlldrivers"
         );
         if (!response.ok) {
           throw new Error(

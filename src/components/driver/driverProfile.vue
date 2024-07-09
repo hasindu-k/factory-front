@@ -71,7 +71,8 @@
   
   <style scoped>
   .back-container {
-    background-image: url('F:\OneDrive\Desktop\TEA FACTORY\teaaa.jpg'); /* Add your background image URL */
+    /* background-image: url('\teaaa.jpg'); Add your background image URL */
+    background-image: url('D:\Downloads\teaaa.jpg'); /* Add your background image URL */
     background-size: cover; /* Cover the entire container */
     background-position: center; /* Center the background image */
     width: 100%;

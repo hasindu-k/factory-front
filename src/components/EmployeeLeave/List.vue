@@ -75,6 +75,7 @@ export default {
     methods: {
         addEmployeeClicked() {
             this.$emit('addEmployeeClicked');
+            this.$router.push('/employee-leave-form'); 
         },
         generateReport() {
             // Get the current date and time
@@ -150,7 +151,7 @@ export default {
         async fetchEmployees() {
             try {
                 const response = await fetch(
-                    "http://localhost:5030/api/Leave/GetAllEmployeeLeaves"
+                    "http://localhost:5154/api/Leave/GetAllEmployeeLeaves"
                 );
                 if (!response.ok) {
                     throw new Error(
@@ -179,7 +180,7 @@ export default {
         async updateEmployee(updatedEmployee) {
             try {
                 const response = await fetch(
-                    "http://localhost:5030/api/Leave/UpdateEmployeeLeave",
+                    "http://localhost:5154/api/Leave/UpdateEmployeeLeave",
                     {
                         method: "PUT",
                         headers: {
@@ -212,7 +213,7 @@ export default {
                 if (!confirmed) return; // If user cancels, do nothing
 
                 const response = await fetch(
-                    `http://localhost:5030/api/Leave/DeleteEmployeeLeave/${employee.employeeId}`,
+                    `http://localhost:5154/api/Leave/DeleteEmployeeLeave/${employee.employeeId}`,
                     {
                         method: "DELETE",
                     }

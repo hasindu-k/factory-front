@@ -1,107 +1,118 @@
 <template>
-  <div class="Cart-list-page container mt-3">
-    <h1 class="mb-4">Cart List</h1>
-    <div class="search-container">
-      <label for="search" class="visually-hidden">Search:</label>
-      <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          id="search"
-          placeholder="Search Products"
-          v-model="searchTerm"
-          @input="searchCartProducts"
-        />
-        <button
-          class="btn btn-primary"
-          type="button"
-          @click="searchCartProducts"
-        >
-          <i class="fas fa-search"></i>
-          <span class="visually-hidden">Search</span>
-        </button>
-      </div>
-      <h2 class="total-price">Total Price: {{ getTotalPrice() }}</h2>
-    </div>
+  <div class="header-cart-list">
+    <PageHeader />
+    <div class="cart-background">
+      <div class="Cart-list-page container mt-3">
+        <h1 class="mb-4">Cart List</h1>
+        <div class="search-container">
+          <label for="search" class="visually-hidden">Search:</label>
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              id="search"
+              placeholder="Search Products"
+              v-model="searchTerm"
+              @input="searchCartProducts"
+            />
+            <button
+              class="btn btn-primary"
+              type="button"
+              @click="searchCartProducts"
+            >
+              <i class="fas fa-search"></i>
+              <span class="visually-hidden">Search</span>
+            </button>
+          </div>
+          <h2 class="total-price">Total Price: {{ getTotalPrice() }}</h2>
+        </div>
 
-    <table class="ProductTable">
-      <thead class="thead-dark">
-        <tr>
-          <th>Cart ID</th>
-          <th>Product Name</th>
-          <th>Quantity</th>
-          <th>Total Price</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody v-if="filteredCartProducts.length > 0">
-        <tr v-for="cartProduct in filteredCartProducts" :key="cartProduct.cId">
-          <td>{{ cartProduct.cId }}</td>
-          <td>{{ cartProduct.productName }}</td>
-          <td>
-            <input type="number" v-model="cartProduct.quantity" min="1" />
-          </td>
-          <td>{{ calculateTotalPrice(cartProduct) }}</td>
-          <td>
-            <div class="button-group">
-              <button
-                class="btn btn-primary btn-sm"
-                @click="buyProduct(cartProduct)"
-              >
-                Buy
-              </button>
-              <button
-                class="btn btn-success btn-sm"
-                @click="saveQuantity(cartProduct)"
-              >
-                Save
-              </button>
-              <button
-                class="btn btn-danger btn-sm"
-                @click="deleteCartProduct(cartProduct.cId)"
-              >
-                Delete
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-      <tbody v-else>
-        <tr>
-          <td colspan="6">No matching products found.</td>
-        </tr>
-      </tbody>
-    </table>
-    <div v-if="editing">
-      <edit-cartProduct
-        :cartProduct="
-          cartProducts.find((cartProduct) => cartProduct.cId === editCId)
-        "
-        @update="updateCartProduct"
-        @cancel="cancelEdit"
-      ></edit-cartProduct>
+        <table class="ProductTable">
+          <thead class="thead-dark">
+            <tr>
+              <th>Cart ID</th>
+              <th>Product Name</th>
+              <th>Quantity</th>
+              <th>Total Price</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody v-if="filteredCartProducts.length > 0">
+            <tr
+              v-for="cartProduct in filteredCartProducts"
+              :key="cartProduct.cId"
+            >
+              <td>{{ cartProduct.cId }}</td>
+              <td>{{ cartProduct.productName }}</td>
+              <td>
+                <input type="number" v-model="cartProduct.quantity" min="1" />
+              </td>
+              <td>{{ calculateTotalPrice(cartProduct) }}</td>
+              <td>
+                <div class="button-group">
+                  <button
+                    class="btn btn-primary btn-sm"
+                    @click="buyProduct(cartProduct)"
+                  >
+                    Buy
+                  </button>
+                  <button
+                    class="btn btn-success btn-sm"
+                    @click="saveQuantity(cartProduct)"
+                  >
+                    Save
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    @click="deleteCartProduct(cartProduct.cId)"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody v-else>
+            <tr>
+              <td colspan="6">No matching products found.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div v-if="editing">
+          <edit-cartProduct
+            :cartProduct="
+              cartProducts.find((cartProduct) => cartProduct.cId === editCId)
+            "
+            @update="updateCartProduct"
+            @cancel="cancelEdit"
+          ></edit-cartProduct>
+        </div>
+        <DeleteCartProduct
+          v-if="selectedCartProductForDeletion"
+          :cartProduct="selectedCartProductForDeletion"
+          @delete="performDelete"
+          @cancel="cancelDelete"
+        />
+        <SuccessPopup
+          v-if="showSuccessPopup"
+          :message="successMessage"
+          @close="showSuccessPopup = false"
+        />
+        <div v-if="error" class="alert alert-danger mt-3">{{ error }}</div>
+      </div>
+      <PaymentDetails
+        v-if="showPaymentDetails"
+        :productName="selectedProduct.productName"
+        @close="closePaymentDetailsModal"
+      />
     </div>
-    <DeleteCartProduct
-      v-if="selectedCartProductForDeletion"
-      :cartProduct="selectedCartProductForDeletion"
-      @delete="performDelete"
-      @cancel="cancelDelete"
-    />
-    <SuccessPopup
-      v-if="showSuccessPopup"
-      :message="successMessage"
-      @close="showSuccessPopup = false"
-    />
-    <div v-if="error" class="alert alert-danger mt-3">{{ error }}</div>
+    <PageFooter />
   </div>
-  <PaymentDetails
-    v-if="showPaymentDetails"
-    :productName="selectedProduct.productName"
-    @close="closePaymentDetailsModal"
-  />
 </template>
 
 <script>
+import PageHeader from "../PageHeader.vue";
+import PageFooter from "../PageFooter.vue";
 import DeleteCartProduct from "./DeleteCartProduct.vue";
 import SuccessPopup from "./SuccessPopUp.vue";
 import PaymentDetails from "./PaymentDetails.vue";
@@ -154,7 +165,7 @@ export default {
     async fetchCartProductDetails() {
       try {
         const response = await fetch(
-          "http://localhost:5030/api/cart/getallcartproducts"
+          "http://localhost:5154/api/cart/getallcartproducts"
         );
         if (!response.ok) {
           throw new Error(
@@ -189,7 +200,7 @@ export default {
       this.selectedCartProductForDeletion = null;
     },
     async deleteCartProductOnServer(cId) {
-      const url = `http://localhost:5030/api/Cart/DeleteCartProducts?cId=${cId}`;
+      const url = `http://localhost:5154/api/Cart/DeleteCartProducts?cId=${cId}`;
 
       const response = await fetch(url, {
         method: "DELETE",
@@ -216,7 +227,7 @@ export default {
         };
 
         const response = await fetch(
-          `http://localhost:5030/api/Cart/UpdateCartProducts`,
+          `http://localhost:5154/api/Cart/UpdateCartProducts`,
           {
             method: "PUT",
             headers: {
@@ -247,7 +258,7 @@ export default {
     async fetchProductPrices() {
       try {
         const response = await fetch(
-          "http://localhost:5030/api/Product/GetAllProducts"
+          "http://localhost:5154/api/Product/GetAllProducts"
         );
         if (!response.ok) {
           throw new Error("Error fetching product prices");
@@ -286,12 +297,23 @@ export default {
     DeleteCartProduct,
     SuccessPopup,
     PaymentDetails,
+    PageFooter,
+    PageHeader,
   },
 };
 </script>
 
 <style scoped>
-/* Overall page styling */
+.cart-background {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/src/assets/2.png");
+  background-size: cover;
+  background-position: center;
+}
 .Cart-list-page {
   max-width: 2000px;
   margin: 0 auto;

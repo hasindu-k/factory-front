@@ -1,5 +1,5 @@
 <template>
-  <div class="frame">
+  <div class="frame" style="margin-top: 100px;">
     <div class="div-wrapper">
       <div class="text-wrapper">ADD Fertilizer</div>
     </div>
@@ -72,7 +72,7 @@
               <option value="300">300</option>
               <option value="400">400</option>
             </select>
-            
+
             <div class="invalid-feedback" v-if="!price">Price is required.</div>
           </div>
           <div class="mb-3">
@@ -131,14 +131,15 @@
           <button type="button" class="btn btn-success" @click="addFertilizer">
             Add
           </button>
-          <button type="button" class="btn btn-danger" @click="cancel">Cancel</button>
+          <button @click="navigateToView">View Details <i class="fas fa-eye"></i></button>
+          <button type="button" class="btn btn-danger" @click="cancel">
+            Cancel
+          </button>
         </div>
       </div>
       <!-- form-container -->
     </div>
   </div>
-
-
 </template>
 
 <!-- <script>
@@ -175,7 +176,7 @@ export default {
     //     };
 
     //     const response = await fetch(
-    //       "http://localhost:5030/api/Fertilizer/PostFertilizer",
+    //       "http://localhost:5154/api/Fertilizer/PostFertilizer",
     //       {
     //         method: "POST",
     //         headers: {
@@ -249,40 +250,88 @@ export default {
   methods: {
     addFertilizer() {
       console.log("Adding fertilizer...");
-    // Perform validation if necessary
-    // Example: check if all required fields are filled
-    if (
+      // Perform validation if necessary
+      // Example: check if all required fields are filled
+      if (
         !this.fName ||
         !this.applicationMethod ||
         !this.unitPrice ||
         !this.stockQuantity ||
         !this.measurementUnit ||
         !this.description
-    ) {
+      ) {
         this.error = "Please fill out all fields.";
         return;
-    }
+      }
 
-    // Create a new fertilizer object
-    const newFertilizer = {
+      // Create a new fertilizer object
+      const newFertilizer = {
         fName: this.fName,
         applicationMethod: this.applicationMethod,
         unitPrice: this.unitPrice,
         stockQuantity: this.stockQuantity,
         measurementUnit: this.measurementUnit,
         description: this.description,
-        
-    };
-    console.log("Adding fertilizer123..");
-    // Emit an event to pass the new fertilizer data to the parent component
-    this.$emit('addFertilizer', newFertilizer);
+      };
+      console.log("Adding fertilizer123..",newFertilizer);
+      
+      this.submitFormData();
 
-    // Reset the form after adding the fertilizer
-    this.clearForm();
-},
+      // Emit an event to pass the new fertilizer data to the parent component
+      //this.$emit("addFertilizer", newFertilizer);
 
+      // Reset the form after adding the fertilizer
+      //this.clearForm();
+    },
+    async submitFormData() {
+      try {
+        const formData = {
+          fName: this.fName,
+          applicationMethod: this.applicationMethod,
+          unitPrice: this.unitPrice,
+          stockQuantity: this.stockQuantity,
+          measurementUnit: this.measurementUnit,
+          description: this.description,
+        };
+        //Connection
+        const response = await fetch(
+          "http://localhost:5154/api/Fertilizer/PostFertilizer",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Failed to add fertilizer. Status: ${response.status}`
+          );
+        }
+
+        alert("fertilizer added successfully!");
+
+        // Reset form fields after successful submission
+        this.resetFormFields();
+      } catch (error) {
+        console.error("Error adding fertilizer:", error);
+
+        alert("Error adding fertilizer. Please try again.");
+      }
+    },
+    resetFormFields() {
+      // Reset all form fields to empty strings
+      this.fName = "";
+      this.applicationMethod = "";
+      this.unitPrice = "";
+      this.stockQuantity = "";
+      this.measurementUnit = "";
+      this.description = "";
+    },
     cancel() {
-      this.$emit('cancel');
+      this.$emit("cancel");
     },
     isValidForm() {
       // Check if all required fields are filled
@@ -304,10 +353,17 @@ export default {
       this.measurementUnit = "";
       this.description = "";
     },
+    navigateToView() {
+      const router = this.$router;
+      if (router) {
+        router.push({ name: "fertilizerList" });
+      } else {
+        console.error("Router instance is undefined.");
+      }
+    },
   },
 };
 </script>
-
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>

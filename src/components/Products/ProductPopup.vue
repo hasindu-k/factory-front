@@ -74,7 +74,7 @@ export default {
     async addToCart(product) {
       try {
         // Fetch the current cart contents
-        const cartResponse = await fetch("http://localhost:5030/api/Cart/GetAllCartProducts");
+        const cartResponse = await fetch("http://localhost:5154/api/Cart/GetAllCartProducts");
         if (!cartResponse.ok) {
           throw new Error("Error fetching cart contents. Status: " + cartResponse.status);
         }
@@ -97,7 +97,7 @@ export default {
           quantity
         };
 
-        const response = await fetch("http://localhost:5030/api/Cart/PostCartProducts", {
+        const response = await fetch("http://localhost:5154/api/Cart/PostCartProducts", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"

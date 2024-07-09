@@ -1,49 +1,86 @@
 <template>
-  <div class="product-list-page container mt-3">
-    <div class="mb-3 search-bar">
-  <label for="search" class="search-label">Search</label>
-  <input type="text" class="form-control search-input" id="search" placeholder="Search Products . . ." v-model="searchTerm" @input="searchProducts" />
-</div>
+  <div class="header-cus-product-list">
+    <PageHeader />
+    <div class="list-background">
+      <div class="product-list-page container mt-3">
+        <div class="mb-3 search-bar">
+          <label for="search" class="search-label">Search</label>
+          <input
+            type="text"
+            class="form-control search-input"
+            id="search"
+            placeholder="Search Products . . ."
+            v-model="searchTerm"
+            @input="searchProducts"
+          />
+        </div>
 
+        <div class="product-list">
+          <div
+            v-for="product in filteredProducts"
+            :key="product.productId"
+            class="product-item"
+            @click="showPopup(product, $event)"
+          >
+            <div class="product-image">
+              <img :src="product.productPhoto" alt="Product Image" />
+            </div>
+            <div class="product-details">
+              <h3 class="product-name">{{ product.productName }}</h3>
+              <p class="product-price">{{ product.price }}</p>
+              <p class="product-availability">
+                {{ product.avaiStock }} Available
+              </p>
+              <div class="product-actions">
+                <button
+                  class="btn btn-primary"
+                  @click="buyProduct(product, $event)"
+                >
+                  Buy
+                </button>
+                <button class="btn btn-success" @click="addToCart(product)">
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+          <div v-if="filteredProducts.length === 0" class="no-results">
+            No matching products found
+          </div>
+        </div>
 
-    <div class="product-list">
-      <div v-for="product in filteredProducts" :key="product.productId" class="product-item" @click="showPopup(product, $event)">
-  <div class="product-image">
-    <img :src="product.productPhoto" alt="Product Image" />
-  </div>
-  <div class="product-details">
-    <h3 class="product-name">{{ product.productName }}</h3>
-    <p class="product-price">{{ product.price }}</p>
-    <p class="product-availability">{{ product.avaiStock }} Available</p>
-    <div class="product-actions">
-      <button class="btn btn-primary" @click="buyProduct(product, $event)">Buy</button>
-      <button class="btn btn-success" @click="addToCart(product)">Add to Cart</button>
-      
-    </div>
-  </div>
-</div>
-      <div v-if="filteredProducts.length === 0" class="no-results">
-        No matching products found
+        <!-- Confirmation message -->
+        <div v-if="showToast" class="confirmation-message">
+          {{ toastMessage }}
+        </div>
+
+        <ProductPopup
+          v-if="isPopupVisible"
+          :product="selectedProduct"
+          @close="hidePopup"
+        />
       </div>
+      <PaymentDetails
+        v-if="showPaymentDetails"
+        :productName="selectedProduct.productName"
+        @close="closePaymentDetailsModal"
+      />
     </div>
-
-    <!-- Confirmation message -->
-    <div v-if="showToast" class="confirmation-message">
-      {{ toastMessage }}
-    </div>
-
-    <ProductPopup v-if="isPopupVisible" :product="selectedProduct" @close="hidePopup" />
+    <PageFooter />
   </div>
-  <PaymentDetails v-if="showPaymentDetails" :productName="selectedProduct.productName" @close="closePaymentDetailsModal" />
 </template>
 
 <script>
-import ProductPopup from './ProductPopup.vue';
-import PaymentDetails from './payment-details.vue';
+import ProductPopup from "./ProductPopup.vue";
+import PaymentDetails from "./payment-details.vue";
+import PageHeader from "../PageHeader.vue";
+import PageFooter from "../PageFooter.vue";
 export default {
   components: {
     ProductPopup,
     PaymentDetails,
+    PageFooter,
+    PageHeader,
   },
   data() {
     return {
@@ -54,34 +91,38 @@ export default {
       isPopupVisible: false,
       selectedProduct: null,
       showPaymentDetails: false,
-     
     };
   },
   mounted() {
     this.fetchProductDetails();
-  // Log product photo URLs to the console
-  console.log("Product Photo URLs:", this.products.map(product => product.productPhoto));
+    // Log product photo URLs to the console
+    console.log(
+      "Product Photo URLs:",
+      this.products.map((product) => product.productPhoto)
+    );
   },
   computed: {
     filteredProducts() {
-      return this.products.filter(product => {
+      return this.products.filter((product) => {
         const searchLower = this.searchTerm.toLowerCase();
         return product.productName.toLowerCase().includes(searchLower);
       });
-    }
+    },
   },
   methods: {
-
     showPopup(product, event) {
-  // Check if the click event target is not the "Buy" or "Add to Cart" button
-  if (!event.target.classList.contains('btn-primary') && !event.target.classList.contains('btn-success')) {
-    this.selectedProduct = product;
-    this.isPopupVisible = true;
-  } else {
-    // Stop the click event propagation to prevent the popup from opening
-    event.stopPropagation();
-  }
-},
+      // Check if the click event target is not the "Buy" or "Add to Cart" button
+      if (
+        !event.target.classList.contains("btn-primary") &&
+        !event.target.classList.contains("btn-success")
+      ) {
+        this.selectedProduct = product;
+        this.isPopupVisible = true;
+      } else {
+        // Stop the click event propagation to prevent the popup from opening
+        event.stopPropagation();
+      }
+    },
 
     hidePopup() {
       this.selectedProduct = null;
@@ -100,18 +141,22 @@ export default {
     },
     async fetchProductDetails() {
       try {
-        const response = await fetch(`http://localhost:5030/api/Product/GetAllProducts`);
+        const response = await fetch(
+          `http://localhost:5154/api/Product/GetAllProducts`
+        );
         if (!response.ok) {
-          throw new Error("Error fetching product details. Status: " + response.status);
+          throw new Error(
+            "Error fetching product details. Status: " + response.status
+          );
         }
         const responseData = await response.json();
         this.products = responseData;
       } catch (error) {
         console.error("Error fetching product details:", error);
-        this.showToastMessage("Error fetching product details" , 'error');
+        this.showToastMessage("Error fetching product details", "error");
       }
     },
-   
+
     buyProduct(cartProduct) {
       // Set the selected product
       this.selectedProduct = cartProduct;
@@ -127,73 +172,92 @@ export default {
     },
 
     async addToCart(product) {
-  try {
-    // Fetch the current cart contents
-    const cartResponse = await fetch("http://localhost:5030/api/Cart/GetAllCartProducts");
-    if (!cartResponse.ok) {
-      throw new Error("Error fetching cart contents. Status: " + cartResponse.status);
-    }
-    const cartData = await cartResponse.json();
+      try {
+        // Fetch the current cart contents
+        const cartResponse = await fetch(
+          "http://localhost:5154/api/Cart/GetAllCartProducts"
+        );
+        if (!cartResponse.ok) {
+          throw new Error(
+            "Error fetching cart contents. Status: " + cartResponse.status
+          );
+        }
+        const cartData = await cartResponse.json();
 
-    // Check if the product is already in the cart
-    const productInCart = cartData.find(item => item.productId === product.productId);
-    if (productInCart) {
-      // If the product is already in the cart, show an error message
-      this.showToastMessage("Product is already in the cart!" , 'error');
-      return;
-    }
+        // Check if the product is already in the cart
+        const productInCart = cartData.find(
+          (item) => item.productId === product.productId
+        );
+        if (productInCart) {
+          // If the product is already in the cart, show an error message
+          this.showToastMessage("Product is already in the cart!", "error");
+          return;
+        }
 
-    // If the product is not in the cart, proceed to add it
-    const quantity = 1; // Default quantity
-    const data = {
-      productName: product.productName, // Ensure productName is included
-      productId: product.productId,
-      quantity
-    };
+        // If the product is not in the cart, proceed to add it
+        const quantity = 1; // Default quantity
+        const data = {
+          productName: product.productName, // Ensure productName is included
+          productId: product.productId,
+          quantity,
+        };
 
-    const response = await fetch("http://localhost:5030/api/Cart/PostCartProducts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    });
+        const response = await fetch(
+          "http://localhost:5154/api/Cart/PostCartProducts",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }
+        );
 
-    if (!response.ok) {
-      const errorMessage = await response.text();
-      throw new Error(`Error adding product to cart. Status: ${response.status}. ${errorMessage}`);
-    }
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          throw new Error(
+            `Error adding product to cart. Status: ${response.status}. ${errorMessage}`
+          );
+        }
 
-    // If the response status is OK, show a success message
-    this.showToastMessage("Product added to cart!");
-  } catch (error) {
-    console.error("Error adding product to cart:", error);
-    this.showToastMessage("Error adding product to cart");
-  }
-},
+        // If the response status is OK, show a success message
+        this.showToastMessage("Product added to cart!");
+      } catch (error) {
+        console.error("Error adding product to cart:", error);
+        this.showToastMessage("Error adding product to cart");
+      }
+    },
 
-showToastMessage(message, messageType) {
-  this.toastMessage = message;
-  this.showToast = true;
-  setTimeout(() => {
-    this.showToast = false;
-    this.toastMessage = "";
-  }, 3000); // Hide toast after 3 seconds
+    showToastMessage(message, messageType) {
+      this.toastMessage = message;
+      this.showToast = true;
+      setTimeout(() => {
+        this.showToast = false;
+        this.toastMessage = "";
+      }, 3000); // Hide toast after 3 seconds
 
-  // Determine the appropriate class based on messageType
-  if (messageType === 'error') {
-    this.toastClass = 'error-message';
-  } else if (messageType === 'success') {
-    this.toastClass = 'success-message';
-  }
-},
-
-    
-  }
+      // Determine the appropriate class based on messageType
+      if (messageType === "error") {
+        this.toastClass = "error-message";
+      } else if (messageType === "success") {
+        this.toastClass = "success-message";
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
+.list-background {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/src/assets/2.png");
+  background-size: cover;
+  background-position: center;
+}
 .search-bar {
   display: flex;
   align-items: center;
@@ -217,10 +281,12 @@ showToastMessage(message, messageType) {
 
 .product-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Adjust minmax width */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(250px, 1fr)
+  ); /* Adjust minmax width */
   gap: 20px;
 }
-
 
 .product-item {
   background-color: #6fe879;
@@ -308,7 +374,7 @@ showToastMessage(message, messageType) {
   max-width: 600px;
   width: 100%;
   overflow-y: auto; /* Add this line */
-  max-height: 80%; 
+  max-height: 80%;
 }
 
 .custom-modal h2 {
@@ -371,12 +437,20 @@ showToastMessage(message, messageType) {
 }
 
 @keyframes slideIn {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(0); }
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideOut {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-100%); }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
 }
-</style> 
+</style>

@@ -263,7 +263,7 @@ export default {
                 cusPassword: this.newCustomer.cusPassword,
           };
           //Connection
-          const response = await fetch("http://localhost:5207/api/Customer/PostCustomers", {
+          const response = await fetch("http://localhost:5154/api/Customer/PostCustomers", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -309,7 +309,7 @@ export default {
         },
         async fetchCustomers() {
         try {
-            const response = await fetch("http://localhost:5207/api/Customer/GetAllCustomers");
+            const response = await fetch("http://localhost:5154/api/Customer/GetAllCustomers");
             if (!response.ok) {
             throw new Error(
                 `Failed to fetch customers. Status: ${response.status}`
@@ -345,7 +345,7 @@ export default {
         //     };
 
             
-        //     fetch("http://localhost:5207/api/User/UpdateManagers", {
+        //     fetch("http://localhost:5154/api/User/UpdateManagers", {
         //         method: "PUT",
         //         headers: {
         //             "Content-Type": "application/json",
@@ -375,7 +375,7 @@ export default {
         async updateCustomer(updatedCustomer) {
             try {
             const response = await fetch(
-                "http://localhost:5207/api/Customer/UpdateCustomers",
+                "http://localhost:5154/api/Customer/UpdateCustomers",
                 {
                 method: "PUT",
                 headers: {
@@ -419,7 +419,7 @@ export default {
         this.selectedCustomerForDeletion = null;
         },
         async deleteCustomerOnServer(cusID) {
-        const url = `http://localhost:5207/api/Customer/DeleteCustomer?cusID=${cusID}`;
+        const url = `http://localhost:5154/api/Customer/DeleteCustomer?cusID=${cusID}`;
         const response = await fetch(url, {
             method: "DELETE",
             headers: {
@@ -517,7 +517,7 @@ export default {
                 cusPassword: this.newCustomer.cusPassword,
             };
 
-            fetch("http://localhost:5207/api/Customer/PostCustomers", {
+            fetch("http://localhost:5154/api/Customer/PostCustomers", {
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json",
