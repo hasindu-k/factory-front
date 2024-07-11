@@ -1,37 +1,71 @@
 <template>
   <div class="page-container">
     <div class="header">
-      <PageHeader/>
+      <PageHeader />
       <div class="back-button-container">
-  <router-link to="/" class="back-button small">Back to Dashboard</router-link>
-</div>
+        <router-link to="/supplier-dashboard" class="back-button small"
+          >Back to Dashboard</router-link
+        >
+      </div>
+      <div class="Order-table-buton-container">
+        <router-link to="/order-details-table" class="back-button small"
+          >Order Details Table</router-link
+        >
+      </div>
     </div>
-    <router-link to="/dashboard" class="back-button small">Back to Dashboard</router-link> 
+    <router-link to="/dashboard" class="back-button small"
+      >Back to Dashboard</router-link
+    >
     <div class="content-container">
       <div class="form-container">
         <div class="order-form">
           <h2>Place Order <i class="fas fa-cart-plus"></i></h2>
           <form @submit.prevent="submitForm">
             <div class="form-group">
-              <label for="supplierID">Supplier ID <i class="fas fa-id-badge"></i>:</label>
-              <input type="number" id="supplierID" v-model="supplierID" required>
+              <label for="supplierID"
+                >Supplier ID <i class="fas fa-id-badge"></i>:</label
+              >
+              <input
+                type="number"
+                id="supplierID"
+                v-model="supplierID"
+                required
+              />
             </div>
             <div class="form-group">
-              <label for="itemName">Item Name <i class="fas fa-tag"></i>:</label>
-              <input type="text" id="itemName" v-model="itemName" required>
+              <label for="itemName"
+                >Item Name <i class="fas fa-tag"></i>:</label
+              >
+              <input type="text" id="itemName" v-model="itemName" required />
             </div>
             <div class="form-group">
               <div class="form-row">
                 <div class="col">
-                  <label for="quantity">Quantity <i class="fas fa-boxes"></i>:</label>
-                  <input type="number" id="quantity" v-model="quantity" required>
+                  <label for="quantity"
+                    >Quantity <i class="fas fa-boxes"></i>:</label
+                  >
+                  <input
+                    type="number"
+                    id="quantity"
+                    v-model="quantity"
+                    required
+                  />
                 </div>
                 <div class="col">
-                  <label for="unitPrice">Unit Price <i class="fas fa-dollar-sign"></i>:</label>
-                  <input type="number" id="unitPrice" v-model="unitPrice" required>
+                  <label for="unitPrice"
+                    >Unit Price <i class="fas fa-dollar-sign"></i>:</label
+                  >
+                  <input
+                    type="number"
+                    id="unitPrice"
+                    v-model="unitPrice"
+                    required
+                  />
                 </div>
                 <div class="col">
-                  <label for="orderState">Order State <i class="fas fa-info-circle"></i>:</label>
+                  <label for="orderState"
+                    >Order State <i class="fas fa-info-circle"></i>:</label
+                  >
                   <select id="orderState" v-model="orderState" required>
                     <option value="">Select order state</option>
                     <option value="Confirmed">Confirmed</option>
@@ -43,40 +77,44 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="orderDate">Order Date <i class="fas fa-calendar-alt"></i>:</label>
-              <input type="date" id="orderDate" v-model="orderDate" required>
+              <label for="orderDate"
+                >Order Date <i class="fas fa-calendar-alt"></i>:</label
+              >
+              <input type="date" id="orderDate" v-model="orderDate" required />
             </div>
             <div class="form-group">
-              <button type="submit">Submit <i class="fas fa-eye"></i></button><br><br>
-              <button type="submit">Place Order <i class="fas fa-check"></i></button>
-              
+              <button type="submit">Submit <i class="fas fa-eye"></i></button
+              ><br /><br />
+              <button type="submit">
+                Place Order <i class="fas fa-check"></i>
+              </button>
             </div>
           </form>
         </div>
       </div>
       <div class="image-container"></div>
     </div>
-    <PageFooter/>
+    <PageFooter />
   </div>
 </template>
 
 <script>
-import PageHeader from '../PageHeader.vue';
-import PageFooter from '../PageFooter.vue';
+import PageHeader from "../PageHeaderManager.vue";
+import PageFooter from "../PageFooter.vue";
 
 export default {
   components: {
     PageHeader,
-    PageFooter
+    PageFooter,
   },
   data() {
     return {
-      itemName: '',
+      itemName: "",
       quantity: null,
       unitPrice: null,
-      orderState: '',
-      orderDate: '',
-      supplierID: null
+      orderState: "",
+      orderDate: "",
+      supplierID: null,
     };
   },
   methods: {
@@ -91,15 +129,15 @@ export default {
           unitPrice: this.unitPrice,
           orderState: this.orderState,
           orderDate: this.orderDate,
-          supplierID: this.supplierID
+          supplierID: this.supplierID,
         };
 
         const response = await fetch("http://localhost:5154/api/Order", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(orderData)
+          body: JSON.stringify(orderData),
         });
 
         if (!response.ok) {
@@ -108,31 +146,31 @@ export default {
 
         alert("Order placed successfully!");
         // this.resetFormFields();
-        this.$router.push({ name: 'OrderDetailsTable' });
+        this.$router.push({ name: "OrderDetailsTable" });
 
-         this.resetFormFields();
+        this.resetFormFields();
       } catch (error) {
         console.error("Error placing order:", error);
         alert("Error placing order. Please try again.");
       }
     },
     resetFormFields() {
-      this.itemName = '';
+      this.itemName = "";
       this.quantity = null;
       this.unitPrice = null;
-      this.orderState = '';
-      this.orderDate = '';
+      this.orderState = "";
+      this.orderDate = "";
       this.supplierID = null;
     },
     navigateToView() {
       const router = this.$router;
       if (router) {
-        router.push({ name: 'OrderDetailsTable' });
+        router.push({ name: "OrderDetailsTable" });
       } else {
         console.error("Router instance is undefined.");
       }
-    }
-  }  
+    },
+  },
 };
 </script>
 
@@ -182,7 +220,7 @@ body {
 
 .image-container {
   flex: 0.65;
-  background-image: url('/src/assets/5.png');
+  background-image: url("/src/assets/5.png");
   background-size: cover;
   background-position: center;
   /* border-radius: 10px; */
@@ -235,7 +273,7 @@ body {
 
 .order-form button {
   padding: 10px 20px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 5px;

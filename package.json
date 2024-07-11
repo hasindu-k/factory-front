@@ -1,5 +1,5 @@
 {
-  "name": "testing-run",
+  "name": "suppliermanagement",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,12 +8,16 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.2",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
-    "@fortawesome/free-brands-svg-icons": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/vue-fontawesome": "^3.0.6",
+    "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
-    "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
+    "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.10.1",
+    "jspdf": "^2.5.1",
     "vue": "^3.2.13",
     "vue-router": "^4.3.2"
   },

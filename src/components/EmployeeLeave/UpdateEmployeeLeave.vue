@@ -1,10 +1,10 @@
 <template>
   <div class="frame">
-    <div class="div-wrapper">
+    <!-- <div class="div-wrapper">
       <div class="text-wrapper">Edit Leave</div>
-    </div>
+    </div> -->
 
-    <form @submit.prevent="update">
+    <!-- <form @submit.prevent="update">
       <div class="div-2">
         <div class="form-container">
           <div class="mb-3 mt-3">
@@ -33,7 +33,35 @@
           </div>
         </div>
       </div>
+    </form> -->
+
+    <div class="add-leave">
+    <form @submit.prevent="update">
+      <div>
+        <label for="employeeId">Employee ID:</label>
+        <input id="employeeId" v-model="editedLeave.employeeId" type="text" required>
+      </div>
+
+      <label for="leaveType">Leave Type:</label>
+      <select id="leaveType" v-model="editedLeave.leave_type" required>
+        <option value="Annual">Annual</option>
+        <option value="Sick">Sick</option>
+        <option value="Maternity">Maternity</option>
+        <!-- Add other leave types as needed -->
+      </select>
+
+      <label for="endDate">Department</label>
+      <input id="endDate" v-model="editedLeave.departmentId" type="text" required>
+
+      <label for="endDate">Number of Days</label>
+      <input id="endDate" v-model="editedLeave.noofLeaveDays" type="text" required>
+
+      <!-- <button type="submit" @click="submitForm">Add Leave</button> -->
+      <button type="submit" class="btn btn-success">Edit</button>
+      <br><br>
+      <button type="submit" @click="cancel">Cancel</button>
     </form>
+  </div>
   </div>
 </template>
 
@@ -145,4 +173,66 @@ a {
   margin: 5px 10px; /* Adjust margins as needed */
 }
 
+
+
+
+
+.add-leave {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.add-leave h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.add-leave form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.add-leave form input,
+.add-leave form select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+.add-leave form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-leave form button:hover {
+  background-color: #0056b3;
+}
+
+.add-leave p {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.add-leave p.success {
+  color: green;
+}
+
+.add-leave p.error {
+  color: red;
+}
 </style>

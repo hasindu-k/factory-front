@@ -1,35 +1,41 @@
 <template>
-  <div class="container">
-    <!-- <img src="../assets/logoUruwala.png" alt="Company logo"> -->
-    <h1 v-if="!authenticated">Manager Login</h1>
+  <div class="background-image-container">
+    <div class="container">
+      <!-- <img src="../assets/logoUruwala.png" alt="Company logo"> -->
+      <h1 v-if="!authenticated">Manager Login</h1>
 
-    <form v-if="!authenticated" @submit.prevent="login" class="mt-3">
-      <div class="form-group">
-        <label for="managerID">ID number:</label>
-        <input type="text" v-model="managerID" class="form-control" required />
-      </div>
+      <form v-if="!authenticated" @submit.prevent="login" class="mt-3">
+        <div class="form-group">
+          <label for="managerID">ID number:</label>
+          <input
+            type="text"
+            v-model="managerID"
+            class="form-control"
+            required
+          />
+        </div>
 
-      <div class="form-group">
-        <label for="managerPassword">Password:</label>
-        <input
-          type="password"
-          v-model="managerPassword"
-          class="form-control"
-          required
-        />
-      </div>
+        <div class="form-group">
+          <label for="managerPassword">Password:</label>
+          <input
+            type="password"
+            v-model="managerPassword"
+            class="form-control"
+            required
+          />
+        </div>
 
-      <button
-        type="button"
-        class="btn btn-primary"
-        @click="navigateToDashboard"
-      >
-        Login
-      </button>
-      <p v-if="error" class="error-message mt-3">{{ error }}</p>
-    </form>
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="navigateToDashboard"
+        >
+          Login
+        </button>
+        <p v-if="error" class="error-message mt-3">{{ error }}</p>
+      </form>
 
-    <!-- <template v-if="authenticated">
+      <!-- <template v-if="authenticated">
             <template v-if="firstTwoLetter === 'UM'">
                 <UserManager/>            
             </template>
@@ -63,7 +69,7 @@
             </template>
         </template> -->
 
-    <!-- <user-manager v-if="authenticated && firstTwoLetter === 'UM'"/>
+      <!-- <user-manager v-if="authenticated && firstTwoLetter === 'UM'"/>
         <fertilizer-manager v-if="authenticated && firstTwoLetter === 'FM'"/>
         <product-manager v-if="authenticated && firstTwoLetter === 'PR'"/>
         <payment-manager v-if="authenticated && firstTwoLetter === 'PA'"/>
@@ -71,6 +77,7 @@
         <supply-manager v-if="authenticated && firstTwoLetter === 'SM'"/>
         <customer-affair-manager v-if="authenticated && firstTwoLetter === 'CM'"/>
         <employee-manager v-if="authenticated && firstTwoLetter === 'EM'"/> -->
+    </div>
   </div>
 </template>
 
@@ -150,15 +157,38 @@ export default {
 </script>
 
 <style scoped>
-.container {
+template {
+  height: 100%;
+  margin: 0;
+}
+.background-image-container {
+  background-image: url("../assets/2.png");
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container {
+  /* display: flex;
   flex-direction: column;
   align-items: center;
-  /*background-image: url('../assets/factory.jpeg'); /* Replace with your image path */
+  background-image: url('../assets/factory.jpeg');
   background-size: cover;
   background-position: center;
   height: 100%;
-  margin-top: 10rem;
+  margin-top: 10rem; */
+
+  max-width: 400px;
+  background-color: rgba(255, 255, 255, 0.8);
+  /* Add background color with opacity */
+  padding: 20px;
+  border-radius: 8px;
+  /* Optional: Add border radius for rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 18% auto;
 }
 
 .container img {
@@ -204,6 +234,16 @@ export default {
   color: red;
 }
 </style>
+
+
+
+
+
+
+
+
+
+
 <!-- <template>
     <div class="container mt-5">
       <img src="../assets/logoUruwala.png" alt="Company logo">

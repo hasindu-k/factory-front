@@ -4,7 +4,7 @@
       <PageHeader/>
     </div>
     <div class="back-button-container">
-  <router-link to="/" class="back-button small">Back to Dashboard</router-link>
+  <router-link to="/supplier-dashboard" class="back-button small">Back to Dashboard</router-link>
 </div>
 
     <div class="background"></div> <!-- Background image with opacity -->
@@ -61,9 +61,9 @@
 
 <script>
 // import PageHeader from '../PageHeader.vue';
-import PageHeader from '../PageHeader.vue';
+import PageHeader from '../PageHeaderManager.vue';
 import PageFooter from '../PageFooter.vue';
-//import html2pdf from 'html2pdf.js'; // Import html2pdf library
+import html2pdf from 'html2pdf.js'; // Import html2pdf library
 
 export default {
   components: {
@@ -131,7 +131,6 @@ export default {
         alert("Error deleting order. Please try again.");
       }
     },
-    /*
     generateReport() {
       const currentDateTime = new Date().toLocaleString("en-US", {
         year: "numeric",
@@ -194,7 +193,6 @@ export default {
 
       return tableHtml;
     },
-    */
   },
 };
 </script>

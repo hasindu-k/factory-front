@@ -331,6 +331,8 @@ export default {
 
     handlePhotoChange(event) {
       const file = event.target.files[0];
+      // this.newProduct.productPhoto = event.target.files[0];
+
       if (file) {
         // Read the selected file as a data URL and assign it to newProduct.productPhoto
         const reader = new FileReader();

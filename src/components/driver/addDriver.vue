@@ -1,4 +1,8 @@
 <template>
+  <PageHeader />
+  <br>
+  <br>
+  <br>
   <div class="add-driver-form">
     <h2>Driver Registration Form <i class="fas fa-user-plus"></i></h2>
     <form @submit.prevent="submitForm">
@@ -90,7 +94,12 @@
 </template>
 
 <script>
+import PageHeader from '../PageHeaderManager.vue';
+
 export default {
+  components: {
+    PageHeader,
+  },
   data() {
     return {
       driverId: "",
@@ -229,7 +238,7 @@ export default {
 
     navigateToDashboard() {
         // addDriver page 
-        this.$router.push('/');
+        this.$router.push('/delivery-dashboard');
     
   },
 },
@@ -277,7 +286,7 @@ textarea {
 
 .btn_button {
   position: absolute;
-  top: 20px; 
+  top: 90px; 
   left: 10px;
   padding: 5px 5px;
   background-color: #007bff;

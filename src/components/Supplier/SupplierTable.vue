@@ -1,13 +1,13 @@
 <template>
   <div class="page-container">
-    <PageHeader/>
+    <PageHeaderManager/>
 
     <div class="spacer"></div> <!-- Add space between header and form -->
     <div class="background"></div> <!-- Background image -->
     <div class="form-container"></div>
     <br>
     <div class="back-button-container">
-  <router-link to="/" class="back-button small">Back to Dashboard</router-link>
+  <router-link to="/supplier-dashboard" class="back-button small">Back to Dashboard</router-link>
 </div>
 
     <div class="supplier-table">
@@ -65,12 +65,12 @@
 </template>
 
 <script>
-import PageHeader from '../PageHeader.vue';
+import PageHeaderManager from '../PageHeaderManager.vue';
 import PageFooter from '../PageFooter.vue';
-// import html2pdf from 'html2pdf.js'; // Import html2pdf library
+import html2pdf from 'html2pdf.js'; // Import html2pdf library
 export default {
   components: {
-    PageHeader,
+    PageHeaderManager,
     PageFooter
   },
 
@@ -215,8 +215,7 @@ export default {
       };
 
       // Use html2pdf library to convert HTML to PDF
-      // html2pdf().set(opt).from(tableHtml).save();
-      window.html2pdf().set(opt).from(tableHtml).save();
+      html2pdf().set(opt).from(tableHtml).save();
     },
   },
 };

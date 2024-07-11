@@ -1,4 +1,5 @@
 <template>
+    <PageHeader/>
     <div class="text">Employee List</div>
     <div class="table-container">
         <div class="search-bar">
@@ -52,6 +53,7 @@
 </template>
 
 <script>
+import PageHeader from "../PageHeaderManager.vue";
 import EditEmployee from "./UpdateEmployeeLeave.vue";
 
 export default {
@@ -239,6 +241,7 @@ export default {
     components: {
         // EditList,
       EditEmployee,
+        PageHeader,
     },
 };
 </script>

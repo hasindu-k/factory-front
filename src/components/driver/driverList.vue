@@ -1,4 +1,5 @@
 <template>
+  <PageHeader />
   <div class="driver-list">
     <h2>Driver List</h2>
 
@@ -65,8 +66,13 @@
 </template>
 
 <script>
+import PageHeader from '../PageHeaderManager.vue';
+
 
 export default {
+  components: {
+    PageHeader,
+  },
   data() {
     return {
       drivers: [],

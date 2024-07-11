@@ -18,7 +18,7 @@
           <th>PaymentMethod</th>
           <th>Amount</th>
           <th>Timestamp</th>
-          <th>Actions</th>
+          <!-- <th>Actions</th> -->
         </tr>
       </thead>
       <tbody v-if="filteredTransactions.length > 0">
@@ -32,7 +32,7 @@
           <td>{{ transaction.paymentMethod }}</td>
           <td>{{ transaction.amount }}</td>
           <td>{{ transaction.timestamp }}</td>
-          <td>
+          <!-- <td>
             <button
               @click="deleteTransaction(transaction.TransactionID)"
               class="btn btn-danger"
@@ -45,13 +45,13 @@
             >
               Update
             </button>
-          </td>
+          </td> -->
         </tr>
       </tbody>
     </table>
     <br />
     <br />
-    <router-link to="/" class="back-button">Back to Form</router-link>
+    <router-link to="/manager-dashboard" class="back-button">Back to Dashboard</router-link>
   </div>
 </template>
 

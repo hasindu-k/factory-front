@@ -20,23 +20,24 @@
 
 <template>
   <PageHeader />
-  <div style="margin: 250px">
+  <div class="container" style="margin: 250px">
     <h1>User Manager Dashboard</h1>
-    <button
-      class="btn btn-primary mb-3"
-      style="margin-left: 0"
-      @click="currentPage = 'customers'"
-    >
-      Manage Customers
-    </button>
+    <br>
+    <div class="button-container">
+      <button
+        class="btn btn-primary"
+        @click="currentPage = 'customers'; reduceMargin()"
+      >
+        Manage Customers
+      </button>
 
-    <button
-      class="btn btn-primary mb-3"
-      style=""
-      @click="currentPage = 'managers'"
-    >
-      Manage Managers
-    </button>
+      <button
+        class="btn btn-primary"
+        @click="currentPage = 'managers'; reduceMargin()"
+      >
+        Manage Managers
+      </button>
+    </div>
 
     <component :is="currentPageComponent"></component>
   </div>
@@ -66,6 +67,11 @@ export default {
     },
   },
   methods: {
+    reduceMargin() {
+      this.$nextTick(() => {
+        document.querySelector(".container").style.margin = "10px auto";
+      });
+    },
     loadPageComponent(page) {
       switch (page) {
         case "customers":
@@ -84,3 +90,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  margin: 0 auto;
+}
+</style>

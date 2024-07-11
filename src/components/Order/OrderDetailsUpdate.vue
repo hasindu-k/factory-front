@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import PageHeader from '../PageHeader.vue';
+import PageHeader from '../PageHeaderManager.vue';
 import PageFooter from '../PageFooter.vue';
 
 export default {
