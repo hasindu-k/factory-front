@@ -343,42 +343,7 @@ export default {
         },
         
 
-        // updateManager(updatedManager) {
-        //     const updatedManagerData = {
-        //         managerID: updatedManager.managerID,
-        //         managerName: updatedManager.managerName,
-        //         managerEmail: updatedManager.managerEmail,
-        //         managerPhone: updatedManager.managerPhone,
-        //         managerType: updatedManager.managerType,
-        //     };
-
-            
-        //     fetch("http://localhost:5154/api/User/UpdateManagers", {
-        //         method: "PUT",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(updatedManagerData),
-        //     })
-        //     .then((response) => {
-        //         if(!response.ok) {
-        //             throw new Error(
-        //                 `Failed to update product. Status: ${response.status}`
-        //             );
-        //         }
-        //         console.log(updatedManager);
-        //         //this.fetchManagers();
-        //         this.editing = false;
-        //         this.editManagerId = null;
-        //         //this.showToastMessage("Manager updated successfully");
-        //         console.log("Manager updated successfully");
-        //     })
-        //     .catch((error) => {
-        //         console.error("Error updating manager: ", error);
-        //         //this.showToastMessage("Error updating manager");
-        //         console.log("Error updating manager");
-        //     });
-        // },
+        
 
         async updateManager(updatedManager) {
             try {
